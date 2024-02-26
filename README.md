@@ -3,8 +3,8 @@
 ## Group T0xG0y
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| António Costa Rego         | 202108666 | up202108666@up.pt                |
+| Daniel Cabral Bernardo         | 202108667 | up202108667@up.pt                |
 
 ----
 
