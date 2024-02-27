@@ -1,6 +1,6 @@
 # CG 2023/2024
 
-## Group T0xG0y
+## Group T06G07
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
 | António Costa Rego         | 202108666 | up202108666@up.pt                |
