@@ -1,9 +1,9 @@
 import {CGFobject} from '../lib/CGF.js';
-import { MyDiamond } from './MyDiamond.js';
-import { MyParallelogram } from './MyParallelogram.js';
-import { MyTriangle } from './MyTriangle.js';
-import { MyTriangleBig } from './MyTriangleBig.js';
-import { MyTriangleSmall } from './MyTriangleSmall.js';
+import { MyDiamond } from "./MyDiamond.js";
+import { MyTriangle } from "./MyTriangle.js";
+import { MyParallelogram } from "./MyParallelogram.js";
+import { MyTriangleSmall } from "./MyTriangleSmall.js";
+
 /**
  * MyDiamond
  * @constructor
@@ -13,92 +13,117 @@ export class MyTangram extends CGFobject {
 	constructor(scene) {
 		super(scene);
         this.diamond = new MyDiamond(scene);
-        this.parallelogram = new MyParallelogram(scene);
         this.triangle = new MyTriangle(scene);
-        this.triangleSmall = new MyTriangleSmall(scene);
-    }
+        this.secondtriangle = new MyTriangle(scene);
+        this.paralellogram = new MyParallelogram(scene);
+        this.trianglesmall = new MyTriangleSmall(scene);
+        this.smallRecTriangle1 = new MyTriangle(scene);
+        this.smallRecTriangle2 = new MyTriangle(scene);
+	}
 
     display(){
-        var ang = Math.PI/4;
+        this.scene.pushMatrix();
+        this.scene.translate(0,-2.5,0);
 
-        var rotateZ = [
-            Math.cos(ang), -Math.sin(ang),0,0,
-            Math.sin(ang), Math.cos(ang),0,0,
-            0, 0, 0, 1,
-            0, 0, 0, 1
-        ]
+        // BEGIN DIAMOND
+        this.scene.pushMatrix();
 
-        var translateX = 0
-        var translateY = 1
-        var translateZ = 0
+        var rotate45 = [
+            Math.sqrt(2)/2, -Math.sqrt(2)/2, 0, 0,
+            Math.sqrt(2)/2, Math.sqrt(2)/2, 0, 0,
+            0,0,1,0,
+            0,0,0,1
+        ];
 
-        var translateMatrix = [
+        var move1 = [
             1,0,0,0,
             0,1,0,0,
             0,0,1,0,
-            translateX,translateY,translateZ,1
+            0,1,0,1,
         ]
 
-        var scaleMatrix = [
+        var move3 = [
+            1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            -0.5,3,0,1,
+        ];
+
+        var scale = [
             Math.sqrt(2)/2,0,0,0,
             0,Math.sqrt(2)/2,0,0,
             0,0,Math.sqrt(2)/2,0,
-            0,0,0,1
-        ]
-        // ---- BEGIN Primitive drawing section
-        
-        this.scene.pushMatrix();
-        //{
-        
-        this.scene.multMatrix(translateMatrix);
-        this.scene.multMatrix(rotateZ);
-        this.scene.multMatrix(scaleMatrix);
+            0,0,0,1,
+        ];
+
+        this.scene.multMatrix(move3);
+
+        this.scene.multMatrix(scale);
+
+        this.scene.multMatrix(rotate45);
+
+        this.scene.multMatrix(move1);
+
         this.diamond.display();
 
         this.scene.popMatrix();
-        //}
+        // END DIAMOND
 
+        // BEGIN TWO BIG RIGHT TRIANGLES
         this.scene.pushMatrix();
 
-        this.scene.translate(0.5,-0.5,0);
+        this.scene.translate(0,1,0);
 
-        this.triangleSmall.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.translate(-1,0.5,0);
-        this.scene.rotate(Math.PI/4,0,0,1);
-        this.scene.scale(-1/Math.sqrt(2),1/Math.sqrt(2),1/Math.sqrt(2));
-        this.scene.translate(-1.5,-1.5,0);
-
-        this.parallelogram.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.translate(0,-1.5,0);
         this.triangle.display();
-        
-        
+
         this.scene.rotate(Math.PI,0,0,1);
-        this.triangle.display();
-        
-        this.scene.popMatrix();
 
+        this.secondtriangle.display();
+
+        this.scene.popMatrix();
+        // END TWO BIG RIGHT TRIANGLES
+
+        // BEGIN PARALELLOGRAM
         this.scene.pushMatrix();
+
+        this.scene.translate(-1.5,2,0);
+
+        this.scene.scale(-1/Math.sqrt(2),1/Math.sqrt(2),1/Math.sqrt(2));
+
+        this.scene.rotate(Math.PI/4 + Math.PI/2,0,0,1);
+
+        this.paralellogram.display();
+
+        this.scene.popMatrix();
+        // END PARALELLOGRAM
+
+        // BEGIN SMALL TRIANGLE
+        this.scene.pushMatrix();
+
+        this.scene.translate(0.5,2,0);
+
+        this.trianglesmall.display();
+
+        this.scene.popMatrix();
+        // END SMALL TRIANGLE
+
+        // BEGIN TWO SMALL RIGHT TRIANGLES
+        this.scene.pushMatrix();
+
+        this.scene.translate(0,4.5,0);
 
         this.scene.scale(1/2,1/2,1/2);
-        this.scene.translate(0,4.0,0);
-        this.triangle.display();
+
+        this.smallRecTriangle1.display();
 
         this.scene.rotate(Math.PI,0,0,1);
-        this.triangle.display();
+
+        this.smallRecTriangle2.display();
+
+        this.scene.popMatrix();
+        // END TWO SMALL RIGHT TRIANGLES
 
         this.scene.popMatrix();
     }
-	
 }
 
