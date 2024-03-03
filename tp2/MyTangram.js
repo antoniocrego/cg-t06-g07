@@ -5,7 +5,7 @@ import { MyParallelogram } from "./MyParallelogram.js";
 import { MyTriangleSmall } from "./MyTriangleSmall.js";
 
 /**
- * MyDiamond
+ * MyTangram
  * @constructor
  * @param scene - Reference to MyScene object
  */
