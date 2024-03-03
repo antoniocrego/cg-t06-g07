@@ -30,7 +30,8 @@ export class MyScene extends CGFscene {
 
     //Objects connected to MyInterface
     this.displayAxis = true;
-    this.visibilityTangram = false;
+    this.visibilityTangram = true;
+    this.visibilityCube = true;
     this.scaleFactor = 1;
   }
   initLights() {
@@ -91,8 +92,19 @@ export class MyScene extends CGFscene {
 
     this.multMatrix(sca);
     
-    if(this.visibilityTangram) this.tangram.display();
-    this.cube.display();
+    this.pushMatrix();
 
+    this.scale(6,6,6);
+    this.translate(0.5,-0.5,-0.5);
+    if(this.visibilityCube) this.cube.display();
+    
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    this.translate(3,-3,0);
+    if(this.visibilityTangram) this.tangram.display();
+
+    this.popMatrix();
   }
 }
