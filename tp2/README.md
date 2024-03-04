@@ -21,3 +21,11 @@
 - Below, is the tangram and cube combined.
 
 ![unitcube](tp2/screenshots/cg-t06g07-tp2-2.png)
+
+- In exercise 3, we learned how to create a three-dimensional figure by combining multiple two-dimensional shapes.
+
+- It was possible to observe that replacing the cube with the new one results in the same set.
+
+- Below, is the set with the new cube.
+
+![unitcubequad](tp2/screenshots/cg-tg06g07-tp2-3.png)
