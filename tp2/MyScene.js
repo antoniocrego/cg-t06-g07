@@ -94,28 +94,27 @@ export class MyScene extends CGFscene {
     ];
 
     this.multMatrix(sca);
-    
-    this.pushMatrix();
-
-    this.scale(6,6,6);
-    this.translate(0.5,-0.5,-0.5);
-    if(this.visibilityCube) this.cube.display();
-    
-    this.popMatrix();
 
     this.pushMatrix();
 
-    this.scale(6,6,6);
-    this.translate(0.5,-0.5,-0.5);
-    if(this.visibilityCubeQuad) this.cubeQuad.display();
-    
-    this.popMatrix();
+    this.translate(3,-3,3);
+    this.rotate(-1*Math.PI/2,1,0,0);
 
     this.pushMatrix();
 
-    this.translate(3,-3,0);
+    this.translate(0,0,3);
     if(this.visibilityTangram) this.tangram.display();
 
     this.popMatrix();
+    
+    this.pushMatrix();
+
+    this.scale(6,6,6);
+    if(this.visibilityCube) this.cube.display();
+    
+    this.popMatrix();
+    
+    this.popMatrix();
+
   }
 }
