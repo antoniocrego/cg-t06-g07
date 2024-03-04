@@ -28,4 +28,4 @@
 
 - Below, is the set with the new cube.
 
-![unitcubequad](tp2/screenshots/cg-tg06g07-tp2-3.png)
+![unitcubequad](tp2/screenshots/cg-t06g07-tp2-3.png)
