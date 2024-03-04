@@ -110,7 +110,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
 
     this.scale(6,6,6);
-    if(this.visibilityCube) this.cube.display();
+    if(this.visibilityCubeQuad) this.cubeQuad.display();
     
     this.popMatrix();
     
