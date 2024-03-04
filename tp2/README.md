@@ -14,10 +14,10 @@
 
 ![tangram](tp2/screenshots/cg-t06g07-tp2-1.png)
 
--In exercise 2, we learned how to create a three-dimensional figure by defining every one of its vertices.
+- In exercise 2, we learned how to create a three-dimensional figure by defining every one of its vertices.
 
--We also learned how to combine the previously defined tangram with the cube and apply transformations to the set.
+- We also learned how to combine the previously defined tangram with the cube and apply transformations to the set.
 
--Below, is the tangram and cube combined.
+- Below, is the tangram and cube combined.
 
 ![unitcube](tp2/screenshots/cg-t06g07-tp2-2.png)
