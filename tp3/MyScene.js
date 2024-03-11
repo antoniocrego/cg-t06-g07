@@ -130,7 +130,7 @@ export class MyScene extends CGFscene {
         this.material3.setSpecular(1, 0, 0, 1.0);
         this.material3.setShininess(10.0);
 
-        //Wood Diffuse
+        //Wood
 
         this.material4 = new CGFappearance(this);
         this.material4.setAmbient(0.5, 0.3, 0.2, 1.0);
@@ -142,9 +142,9 @@ export class MyScene extends CGFscene {
         // initially midrange values on ambient, diffuse and specular, on R, G and B respectively
 
         this.customMaterialValues = {
-            'Ambient': '#0000ff',
-            'Diffuse': '#ff0000',
-            'Specular': '#000000',
+            'Ambient': '#000000',
+            'Diffuse': '#000000',
+            'Specular': '#00ff00',
             'Shininess': 10
         }
         this.customMaterial = new CGFappearance(this);
@@ -180,7 +180,7 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
-        this.rotate(-Math.PI/2, 1, 0, 0);
+        // this.rotate(-Math.PI/2, 1, 0, 0);
         
         if (this.displayNormals)
             this.objects[this.selectedObject].enableNormalViz();
