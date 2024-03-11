@@ -65,8 +65,8 @@ export class MyPrism extends CGFobject {
 				this.normals.push(normal[0]/vectorSize1, normal[1]/vectorSize1, normal[2]/vectorSize1);
 				this.vertices.push(Qx, Qy, Qz);
 				if (i!=this.stacks){
-					this.indices.push(2*(i*this.slices + j), 2*(i*this.slices + (j+1)%this.slices), 2*((i+1)*this.slices + j));
-					this.indices.push(2*(i*this.slices + (j+1)%this.slices), 2*((i+1)*this.slices + (j+1)%this.slices), 2*((i+1)*this.slices + j));
+					this.indices.push(2*(i*this.slices + j)+1, 2*(i*this.slices + (j+1)%this.slices)+1, 2*((i+1)*this.slices + j)+1);
+					this.indices.push(2*(i*this.slices + (j+1)%this.slices)+1, 2*((i+1)*this.slices + (j+1)%this.slices)+1, 2*((i+1)*this.slices + j)+1);
 				}
 			}
 		}
