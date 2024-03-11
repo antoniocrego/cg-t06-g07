@@ -4,6 +4,17 @@
 
 ## TP 3 Notes
 
+- In exercise 1 we learned how to define the normal vectors for the objects
+. 
+- We also learned how to create different materials, with different colors and effects.
+
+![Wood Cube](tp3/screenshots/cg-t06g07-tp3-1.png)
+
+- We learned how to apply different materials to different objects in the scene.
+
+- The major difficulty in this exercise was to declare different normal vectors in the same vertice, wich we solved by creating points with the same coordinates as the original one and apply the normal vectors in the auxiliary points
+
+![Tangram](tp3/screenshots/cg-t06g07-tp3-2.png)
 
 - In exercise 2, we learned to find patterns in defining shapes, such as in the index list and the vertex positions, and utilized them to make an infinitely scalable prism shape through loops.
 
