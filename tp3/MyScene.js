@@ -5,6 +5,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyTangram } from "./MyTangram.js";
 import { MyPrism } from "./MyPrism.js";
+import { MyCylinder } from "./MyCylinder.js";
 
 /**
 * MyScene
@@ -36,11 +37,12 @@ export class MyScene extends CGFscene {
         this.tangram = new MyTangram(this);
         this.cube = new MyUnitCube(this);
         this.prism = new MyPrism(this, 8, 20);
+        this.cylinder = new MyCylinder(this, 8, 20);
         
-        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.cube, this.prism];
+        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.cube, this.prism, this.cylinder];
 
         // Labels and ID's for object selection on MyInterface
-        this.objectIDs = { 'Plane': 0 , 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'Cube': 4, 'Prism': 5};
+        this.objectIDs = { 'Plane': 0 , 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'Cube': 4, 'Prism': 5,  'Cylinder': 6};
 
         //Other variables connected to MyInterface
         this.selectedObject = 0;
@@ -130,7 +132,7 @@ export class MyScene extends CGFscene {
         this.material3.setSpecular(1, 0, 0, 1.0);
         this.material3.setShininess(10.0);
 
-        //Wood
+        //Wood Diffuse
 
         this.material4 = new CGFappearance(this);
         this.material4.setAmbient(0.5, 0.3, 0.2, 1.0);
@@ -142,9 +144,9 @@ export class MyScene extends CGFscene {
         // initially midrange values on ambient, diffuse and specular, on R, G and B respectively
 
         this.customMaterialValues = {
-            'Ambient': '#000000',
-            'Diffuse': '#000000',
-            'Specular': '#00ff00',
+            'Ambient': '#0000ff',
+            'Diffuse': '#ff0000',
+            'Specular': '#000000',
             'Shininess': 10
         }
         this.customMaterial = new CGFappearance(this);
@@ -180,7 +182,7 @@ export class MyScene extends CGFscene {
 
         this.pushMatrix();
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
-        // this.rotate(-Math.PI/2, 1, 0, 0);
+        this.rotate(-Math.PI/2, 1, 0, 0);
         
         if (this.displayNormals)
             this.objects[this.selectedObject].enableNormalViz();
