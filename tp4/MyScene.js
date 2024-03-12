@@ -1,5 +1,6 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyQuad } from "./MyQuad.js";
+import { MyTangram } from "./MyTangram.js";
 
 /**
  * MyScene
@@ -27,6 +28,7 @@ export class MyScene extends CGFscene {
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
+        this.tangram = new MyTangram(this);
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -42,6 +44,14 @@ export class MyScene extends CGFscene {
         this.texture1 = new CGFtexture(this, 'images/board.jpg');
         this.texture2 = new CGFtexture(this, 'images/floor.png');
         this.texture3 = new CGFtexture(this, 'images/window.jpg');
+
+        this.tangMaterial = new CGFappearance(this);
+        this.tangMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.tangMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.tangMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.tangMaterial.setShininess(10.0);
+        this.tangMaterial.loadTexture('images/tangram.png');
+        this.tangMaterial.setTextureWrap('REPEAT', 'REPEAT');
         //-------
 
         //-------Objects connected to MyInterface
@@ -58,6 +68,8 @@ export class MyScene extends CGFscene {
         this.textureIds = { 'Board': 0, 'Floor': 1, 'Window': 2 };
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
+
+        this.displayQuad = true;
 
       }
 
@@ -116,7 +128,7 @@ export class MyScene extends CGFscene {
 
         // ---- BEGIN Primitive drawing section
 
-        this.quadMaterial.apply();
+        if (this.displayQuad) this.quadMaterial.apply();
 
         // Default texture filtering in WebCGF is LINEAR. 
         // Uncomment next line for NEAREST when magnifying, or 
@@ -124,7 +136,11 @@ export class MyScene extends CGFscene {
         
         // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
-        this.quad.display();
+        if (this.displayQuad) this.quad.display();
+
+        this.tangMaterial.apply();
+
+        this.tangram.display();
 
         // ---- END Primitive drawing section
     }
