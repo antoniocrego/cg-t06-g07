@@ -65,6 +65,14 @@ export class MyTangram extends CGFobject {
         this.orange.setDiffuse(0.0, 0.0, 0.0, 1.0);
         this.orange.setSpecular(1.0, 0.6, 0.0, 1.0);
         this.orange.setShininess(10.0);
+
+        this.tangMaterial = new CGFappearance(this.scene);
+        this.tangMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.tangMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.tangMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.tangMaterial.setShininess(10.0);
+        this.tangMaterial.loadTexture('images/tangram.png');
+        this.tangMaterial.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     enableNormalViz(){
@@ -92,7 +100,7 @@ export class MyTangram extends CGFobject {
     display(){
         this.scene.pushMatrix();
         this.scene.translate(0,-2.5,0);
-
+        this.tangMaterial.apply();
         // BEGIN DIAMOND
         this.scene.pushMatrix();
 
@@ -132,14 +140,10 @@ export class MyTangram extends CGFobject {
 
         this.scene.multMatrix(move1);
 
-        this.blue.apply();
-
         this.diamond.display();
 
         this.scene.popMatrix();
         // END DIAMOND
-
-        this.orange.apply()
 
         // BEGIN TWO BIG RIGHT TRIANGLES
         this.scene.pushMatrix();
@@ -147,8 +151,6 @@ export class MyTangram extends CGFobject {
         this.scene.translate(0,1,0);
 
         this.triangle.display();
-
-        this.blue.apply();
 
         this.scene.rotate(Math.PI,0,0,1);
 
@@ -166,8 +168,6 @@ export class MyTangram extends CGFobject {
 
         this.scene.rotate(Math.PI/4 + Math.PI/2,0,0,1);
 
-        this.yellow.apply();
-
         this.paralellogram.display();
 
         this.scene.popMatrix();
@@ -177,8 +177,6 @@ export class MyTangram extends CGFobject {
         this.scene.pushMatrix();
 
         this.scene.translate(0.5,2,0);
-
-        this.pink.apply();
 
         this.trianglesmall.display();
 
@@ -192,13 +190,9 @@ export class MyTangram extends CGFobject {
 
         this.scene.scale(1/2,1/2,1/2);
 
-        this.purple.apply();
-
         this.smallRecTriangle1.display();
 
         this.scene.rotate(Math.PI,0,0,1);
-
-        this.red.apply();
 
         this.smallRecTriangle2.display();
 

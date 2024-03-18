@@ -45,13 +45,6 @@ export class MyScene extends CGFscene {
         this.texture2 = new CGFtexture(this, 'images/floor.png');
         this.texture3 = new CGFtexture(this, 'images/window.jpg');
 
-        this.tangMaterial = new CGFappearance(this);
-        this.tangMaterial.setAmbient(0.1, 0.1, 0.1, 1);
-        this.tangMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.tangMaterial.setSpecular(0.1, 0.1, 0.1, 1);
-        this.tangMaterial.setShininess(10.0);
-        this.tangMaterial.loadTexture('images/tangram.png');
-        this.tangMaterial.setTextureWrap('REPEAT', 'REPEAT');
         //-------
 
         //-------Objects connected to MyInterface
@@ -69,7 +62,7 @@ export class MyScene extends CGFscene {
         this.wrappingS = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
 
-        this.displayQuad = true;
+        this.displayQuad = false;
 
       }
 
@@ -137,8 +130,6 @@ export class MyScene extends CGFscene {
         // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
         if (this.displayQuad) this.quad.display();
-
-        this.tangMaterial.apply();
 
         this.tangram.display();
 
