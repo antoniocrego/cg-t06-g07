@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
 import { MyQuad } from "./MyQuad.js";
 import { MyTangram } from "./MyTangram.js";
+import { MyUnitCubeQuad } from "./MyUnitCubeQuad.js";
 
 /**
  * MyScene
@@ -29,6 +30,12 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.quad = new MyQuad(this);
         this.tangram = new MyTangram(this);
+
+        this.sideTexture = new CGFtexture(this, 'images/mineSide.png');
+        this.topTexture = new CGFtexture(this, 'images/mineTop.png');
+        this.bottomTexture = new CGFtexture(this, 'images/mineBottom.png');
+
+        this.unitcubequad = new MyUnitCubeQuad(this, this.topTexture, this.sideTexture, this.sideTexture, this.sideTexture, this.sideTexture, this.bottomTexture);
 
         //------ Applied Material
         this.quadMaterial = new CGFappearance(this);
@@ -63,6 +70,9 @@ export class MyScene extends CGFscene {
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
 
         this.displayQuad = false;
+        this.displayTangram = false;
+        this.displayUnitCubeQuad = true;
+        this.changeFiltering = false;
 
       }
 
@@ -127,11 +137,14 @@ export class MyScene extends CGFscene {
         // Uncomment next line for NEAREST when magnifying, or 
         // add a checkbox in the GUI to alternate in real time
         
-        // this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+        if (this.changeFiltering) this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+        else this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
 
         if (this.displayQuad) this.quad.display();
 
-        this.tangram.display();
+        if (this.displayTangram) this.tangram.display();
+
+        if (this.displayUnitCubeQuad) this.unitcubequad.display(this.changeFiltering);
 
         // ---- END Primitive drawing section
     }
