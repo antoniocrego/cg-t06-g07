@@ -70,8 +70,8 @@ export class MyScene extends CGFscene {
         this.wrappingT = { 'Repeat': 0, 'Clamp to edge': 1, 'Mirrored repeat': 2 };
 
         this.displayQuad = false;
-        this.displayTangram = false;
-        this.displayUnitCubeQuad = true;
+        this.displayTangram = true;
+        this.displayUnitCubeQuad = false;
         this.changeFiltering = false;
 
       }

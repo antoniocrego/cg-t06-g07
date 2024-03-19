@@ -13,12 +13,12 @@ export class MyTangram extends CGFobject {
 	constructor(scene) {
 		super(scene);
         this.diamond = new MyDiamond(scene);
-        this.triangle = new MyTriangle(scene);
-        this.secondtriangle = new MyTriangle(scene);
+        this.triangle = new MyTriangle(scene,[0.5,0.5,1,0,1,1]);
+        this.secondtriangle = new MyTriangle(scene,[0.5,0.5,1,0,0,0]);
         this.paralellogram = new MyParallelogram(scene);
         this.trianglesmall = new MyTriangleSmall(scene);
-        this.smallRecTriangle1 = new MyTriangle(scene);
-        this.smallRecTriangle2 = new MyTriangle(scene);
+        this.smallRecTriangle1 = new MyTriangle(scene,[0.25,0.25,0,0,0,0.5]);
+        this.smallRecTriangle2 = new MyTriangle(scene,[0.5,0.5,0.75,0.75,0.25,0.75]);
 
         this.initMaterials();
 	}
