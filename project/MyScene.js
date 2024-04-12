@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
+import { MyPanorama } from "./MyPanorama.js";
 
 /**
  * MyScene
@@ -27,7 +28,9 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
-    this.sphere = new MySphere(this,10,10);
+    this.sphere = new MySphere(this,30,30,4,true);
+    this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
+    this.panorama = new MyPanorama(this, this.panoramaTexture);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -40,7 +43,7 @@ this.terrain_appearance = new CGFappearance(this);
 this.terrain_appearance.setTexture(this.terrain);
 this.terrain_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-this.earth = new CGFtexture(this, "images/earth.jpg");
+this.earth = new CGFtexture(this, "images/panorama4.jpg");
 this.earth_appearance = new CGFappearance(this);
 this.earth_appearance.setTexture(this.earth);
 this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
@@ -54,7 +57,7 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
   }
   initCameras() {
     this.camera = new CGFcamera(
-      1.0,
+      1.5,
       0.1,
       1000,
       vec3.fromValues(50, 10, 15),
@@ -92,8 +95,7 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
     this.popMatrix();
 
     this.pushMatrix();
-    this.earth_appearance.apply();
-    this.sphere.display();
+    this.panorama.display();
     this.popMatrix();
 
     // ---- END Primitive drawing section
