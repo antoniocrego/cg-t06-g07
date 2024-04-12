@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
+import { MyFlower } from "./MyFlower.js";
 
 /**
  * MyScene
@@ -28,6 +29,7 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
     this.sphere = new MySphere(this,10,10);
+    this.flower = new MyFlower(this, 5);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -93,7 +95,15 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.pushMatrix();
     this.earth_appearance.apply();
-    this.sphere.display();
+
+    //this.sphere.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    this.flower.display();
+
     this.popMatrix();
 
     // ---- END Primitive drawing section
