@@ -1,10 +1,12 @@
 import {CGFobject} from '../lib/CGF.js';
 
 export class MySphere extends CGFobject {
-	constructor(scene, slices, stacks) {
+	constructor(scene, slices, stacks, radius, inside) {
         super(scene);
         this.slices = slices;
         this.stacks = stacks;
+        this.radius = radius;
+        this.inside = inside;
         this.initBuffers();
 	}
 
@@ -23,11 +25,19 @@ export class MySphere extends CGFobject {
                 var beta = j * delta_beta;
                 var z = Math.sin(alpha) * Math.cos(beta);
                 var x = Math.sin(alpha) * Math.sin(beta);
+                if(this.inside){
+                    x = Math.sin(alpha) * Math.cos(beta);
+                    z = Math.sin(alpha) * Math.sin(beta);    
+                }
                 var y = Math.cos(alpha);
 
-                this.vertices.push(x, y, z);
-                this.normals.push(x, y, z);
+                this.vertices.push(this.radius*x, this.radius*y, this.radius*z);
 
+                if(this.inside){
+                    this.normals.push(-x, -y, -z);
+                }else{
+                    this.normals.push(x, y, z);
+                }
                 this.texCoords.push(j / this.slices, i / (2*this.stacks));
             }
         }

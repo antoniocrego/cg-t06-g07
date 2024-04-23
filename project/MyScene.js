@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyFlower } from "./MyFlower.js";
+import { MyPanorama } from "./MyPanorama.js";
 
 /**
  * MyScene
@@ -28,12 +29,30 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
-    this.sphere = new MySphere(this,10,10);
-    this.flower = new MyFlower(this, 5);
+    this.red = new CGFappearance(this);
+    this.red.setAmbient(1, 0, 0, 1);
+    this.red.setDiffuse(1, 0, 0, 1);
+    this.red.setSpecular(1, 0, 0, 1);
+    this.red.setShininess(10.0);
+    this.green = new CGFappearance(this);
+    this.green.setAmbient(0, 1, 0, 1);
+    this.green.setDiffuse(0, 1, 0, 1);
+    this.green.setSpecular(0, 1, 0, 1);
+    this.green.setShininess(10.0);
+    this.yellow = new CGFappearance(this);
+    this.yellow.setAmbient(1, 1, 0, 1);
+    this.yellow.setDiffuse(1, 1, 0, 1);
+    this.yellow.setSpecular(1, 1, 0, 1);
+    this.yellow.setShininess(10.0);
+    this.flower = new MyFlower(this, 6, this.red, 0.5, this.yellow, 0.1, 5, this.green, 2);
+    this.sphere = new MySphere(this,30,30,4,true);
+    this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
+    this.panorama = new MyPanorama(this, this.panoramaTexture);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.displayNormals = false;
 
     this.enableTextures(true);
 
@@ -42,7 +61,7 @@ this.terrain_appearance = new CGFappearance(this);
 this.terrain_appearance.setTexture(this.terrain);
 this.terrain_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-this.earth = new CGFtexture(this, "images/earth.jpg");
+this.earth = new CGFtexture(this, "images/panorama4.jpg");
 this.earth_appearance = new CGFappearance(this);
 this.earth_appearance.setTexture(this.earth);
 this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
@@ -56,7 +75,7 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
   }
   initCameras() {
     this.camera = new CGFcamera(
-      1.0,
+      1.5,
       0.1,
       1000,
       vec3.fromValues(50, 10, 15),
@@ -103,8 +122,15 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
     this.pushMatrix();
 
     this.flower.display();
-
+    
     this.popMatrix();
+
+    this.panorama.display();
+
+    if (this.displayNormals)
+            this.flower.enableNormalViz();
+        else
+            this.flower.disableNormalViz();
 
     // ---- END Primitive drawing section
   }
