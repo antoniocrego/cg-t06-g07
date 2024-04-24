@@ -3,6 +3,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyFlower } from "./MyFlower.js";
 import { MyPanorama } from "./MyPanorama.js";
+import { MyGarden } from "./MyGarden.js";
 
 /**
  * MyScene
@@ -29,22 +30,8 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
-    this.red = new CGFappearance(this);
-    this.red.setAmbient(1, 0, 0, 1);
-    this.red.setDiffuse(1, 0, 0, 1);
-    this.red.setSpecular(1, 0, 0, 1);
-    this.red.setShininess(10.0);
-    this.green = new CGFappearance(this);
-    this.green.setAmbient(0, 1, 0, 1);
-    this.green.setDiffuse(0, 1, 0, 1);
-    this.green.setSpecular(0, 1, 0, 1);
-    this.green.setShininess(10.0);
-    this.yellow = new CGFappearance(this);
-    this.yellow.setAmbient(1, 1, 0, 1);
-    this.yellow.setDiffuse(1, 1, 0, 1);
-    this.yellow.setSpecular(1, 1, 0, 1);
-    this.yellow.setShininess(10.0);
-    this.flower = new MyFlower(this, 6, this.red, 0.5, this.yellow, 0.1, 5, this.green, 2);
+
+    this.garden = new MyGarden(this);
     this.sphere = new MySphere(this,30,30,4,true);
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
@@ -53,6 +40,8 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.scaleFactor = 1;
     this.displayNormals = false;
+    this.columns = 5;
+    this.rows = 5;
 
     this.enableTextures(true);
 
@@ -121,16 +110,16 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.pushMatrix();
 
-    this.flower.display();
+    this.garden.display(this.rows, this.columns);
     
     this.popMatrix();
 
     this.panorama.display();
 
     if (this.displayNormals)
-            this.flower.enableNormalViz();
+            this.garden.enableNormalViz();
         else
-            this.flower.disableNormalViz();
+            this.garden.disableNormalViz();
 
     // ---- END Primitive drawing section
   }

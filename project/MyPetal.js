@@ -14,8 +14,9 @@ function vectorProduct(x1,y1,z1,x2,y2,z2){
  * @param scene - Reference to MyScene object
  */
 export class MyPetal extends CGFobject {
-	constructor(scene) {
+	constructor(scene, petalAngle) {
 		super(scene);
+		this.petalAngle = Math.PI/2 - petalAngle;
 
 		this.initBuffers();
 	}
@@ -32,20 +33,20 @@ export class MyPetal extends CGFobject {
 		for (var j = 0; j < 4; j++){
 			let Qx, Qy, Qz, Rx, Ry, Rz;
 			if (j % 2 == 0){
-				Qx = 0.5/Math.tan(2*Math.PI/3) * Math.cos(j * 2 * Math.PI / 4);
+				Qx = 0.5/Math.tan(this.petalAngle) * Math.cos(j * 2 * Math.PI / 4);
 				Qy = Math.sin(j * 2 * Math.PI / 4)/2;
 				Qz = 0.5;
 	
 				Rx = Math.cos((j+1)%4 * 2 * Math.PI / 4)/2;
-				Ry = 0.5/Math.tan(2*Math.PI/3) * Math.sin((j+1)%4 * 2 * Math.PI / 4);
+				Ry = 0.5/Math.tan(this.petalAngle) * Math.sin((j+1)%4 * 2 * Math.PI / 4);
 				Rz = 0.5;
 			}
 			else{
 				Qx = Math.cos(j * 2 * Math.PI / 4)/2;
-				Qy = 0.5/Math.tan(2*Math.PI/3) * Math.sin(j * 2 * Math.PI / 4);
+				Qy = 0.5/Math.tan(this.petalAngle) * Math.sin(j * 2 * Math.PI / 4);
 				Qz = 0.5;
 	
-				Rx = 0.5/Math.tan(2*Math.PI/3) * Math.cos((j+1)%4 * 2 * Math.PI / 4);
+				Rx = 0.5/Math.tan(this.petalAngle) * Math.cos((j+1)%4 * 2 * Math.PI / 4);
 				Ry = Math.sin((j+1)%4 * 2 * Math.PI / 4)/2;
 				Rz = 0.5;
 			}
@@ -65,20 +66,20 @@ export class MyPetal extends CGFobject {
 		for (var j = 0; j < 4; j++){
 			let Qx, Qy, Qz, Rx, Ry, Rz;
 			if (j % 2 == 0){
-				Qx = 0.5/Math.tan(2*Math.PI/3) * Math.cos(j * 2 * Math.PI / 4);
+				Qx = 0.5/Math.tan(this.petalAngle) * Math.cos(j * 2 * Math.PI / 4);
 				Qy = Math.sin(j * 2 * Math.PI / 4)/2;
 				Qz = 0.5;
 	
 				Rx = Math.cos((j+1)%4 * 2 * Math.PI / 4)/2;
-				Ry = 0.5/Math.tan(2*Math.PI/3) * Math.sin((j+1)%4 * 2 * Math.PI / 4);
+				Ry = 0.5/Math.tan(this.petalAngle) * Math.sin((j+1)%4 * 2 * Math.PI / 4);
 				Rz = 0.5;
 			}
 			else{
 				Qx = Math.cos(j * 2 * Math.PI / 4)/2;
-				Qy = 0.5/Math.tan(2*Math.PI/3) * Math.sin(j * 2 * Math.PI / 4);
+				Qy = 0.5/Math.tan(this.petalAngle) * Math.sin(j * 2 * Math.PI / 4);
 				Qz = 0.5;
 	
-				Rx = 0.5/Math.tan(2*Math.PI/3) * Math.cos((j+1)%4 * 2 * Math.PI / 4);
+				Rx = 0.5/Math.tan(this.petalAngle) * Math.cos((j+1)%4 * 2 * Math.PI / 4);
 				Ry = Math.sin((j+1)%4 * 2 * Math.PI / 4)/2;
 				Rz = 0.5;
 			}

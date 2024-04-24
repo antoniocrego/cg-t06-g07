@@ -9,7 +9,7 @@ import { MyPetal } from './MyPetal.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-	constructor(scene, petals, petalColor, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius) {
+	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius) {
 		super(scene);
         this.stem = new MyStem(scene, 10, stemStacks);
         this.receptacle = new MyReceptacle(scene, 10, 10, receptacleRadius, false);
@@ -21,7 +21,7 @@ export class MyFlower extends CGFobject {
         this.stemRadius = stemRadius;
         this.stemColor = stemColor;
         for (let i = 0; i < petals; i++) {
-            this.petals.push(new MyPetal(scene, 10, 10));
+            this.petals.push(new MyPetal(scene, petalAngle));
         }
 
         this.initMaterials();
@@ -55,7 +55,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.rotate(-Math.PI/2, 1, 0, 0);
 
-        this.scene.scale(this.stemRadius, this.stemRadius, 2);
+        this.scene.scale(this.stemRadius, this.stemRadius, 4);
 
         this.stemColor.apply();
 
@@ -65,7 +65,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 2, 0);
+        this.scene.translate(0, 4, 0);
 
         this.receptacleColor.apply();
 
@@ -75,7 +75,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 2, 0);
+        this.scene.translate(0, 4, 0);
 
         this.scene.rotate(Math.PI/2,1,0,0);
 
