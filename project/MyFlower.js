@@ -53,9 +53,9 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.rotate(-Math.PI/2, 1, 0, 0);
+        //this.scene.rotate(-Math.PI/2, 1, 0, 0);
 
-        this.scene.scale(this.stemRadius, this.stemRadius, 2);
+        //this.scene.scale(this.stemRadius, this.stemRadius, 2);
 
         this.stemColor.apply();
 
@@ -65,7 +65,9 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 2, 0);
+        this.scene.translate(this.stem.dist, this.stem.height, 0);
+
+        this.scene.rotate(this.stem.randomRotations[this.stem.cylinderCount-1],0,0,1);
 
         this.receptacleColor.apply();
 
@@ -75,7 +77,7 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 2, 0);
+        this.scene.translate(this.stem.dist, this.stem.height, 0);
 
         this.scene.rotate(Math.PI/2,1,0,0);
 
@@ -85,6 +87,7 @@ export class MyFlower extends CGFobject {
 
         for (let i = 0; i < this.petals.length; i++) {
             this.scene.pushMatrix();
+            this.scene.rotate(this.stem.randomRotations[this.stem.cylinderCount-1],0,1,0);
             if (this.petals.length > 1) this.scene.rotate(-i * (3*Math.PI/(2*(this.petals.length-1))), 0, 1, 0);
             else this.scene.rotate(-Math.PI + Math.PI/4, 0, 1, 0);
             this.scene.rotate(Math.PI/4, 0, 0, 1);
