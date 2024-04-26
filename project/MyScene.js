@@ -3,6 +3,8 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyFlower } from "./MyFlower.js";
 import { MyPanorama } from "./MyPanorama.js";
+import { MyRock } from "./MyRock.js";
+import { MyRockSet } from "./MyRockSet.js";
 
 /**
  * MyScene
@@ -44,10 +46,17 @@ export class MyScene extends CGFscene {
     this.yellow.setDiffuse(1, 1, 0, 1);
     this.yellow.setSpecular(1, 1, 0, 1);
     this.yellow.setShininess(10.0);
+    this.gray = new CGFappearance(this);
+    this.gray.setAmbient(0.3, 0.3, 0.3, 1);
+    this.gray.setDiffuse(0.3, 0.3, 0.3, 1);
+    this.gray.setSpecular(0.3, 0.3, 0.3, 1);
+    this.gray.setShininess(3.0);
     this.flower = new MyFlower(this, 6, this.red, 0.5, this.yellow, 0.1, 5, this.green, 2);
     this.sphere = new MySphere(this,30,30,4,true);
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
+    this.rock = new MyRock(this, 6, 6, 4);
+    this.rockSet = new MyRockSet(this,20);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -113,7 +122,7 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
     this.popMatrix();
 
     this.pushMatrix();
-    this.earth_appearance.apply();
+    //this.earth_appearance.apply();
 
     //this.sphere.display();
 
@@ -121,8 +130,22 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     this.pushMatrix();
 
-    this.flower.display();
+    //this.flower.display();
     
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    //this.translate(0,4,-10);
+
+    //this.rotate(Math.PI/2,0,0,1);
+
+    this.gray.apply();
+
+    //this.rock.display();
+
+    this.rockSet.display();
+
     this.popMatrix();
 
     this.panorama.display();
