@@ -7,6 +7,7 @@ import { MyGarden } from "./MyGarden.js";
 import { MyPetal } from "./MyPetal.js";
 import { MyRock } from "./MyRock.js";
 import { MyRockSet } from "./MyRockSet.js";
+import { MyLeaf } from "./MyLeaf.js";
 
 /**
  * MyScene
@@ -45,6 +46,8 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,20);
+
+    this.leaf = new MyLeaf(this, 10, 10);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -135,6 +138,10 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
     //this.rock.display();
 
     //this.rockSet.display();
+
+    this.leaf.display();
+
+    this.leaf.enableNormalViz();
 
     this.popMatrix();
 
