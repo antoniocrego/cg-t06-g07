@@ -67,7 +67,7 @@ this.earth = new CGFtexture(this, "images/panorama4.jpg");
 this.earth_appearance = new CGFappearance(this);
 this.earth_appearance.setTexture(this.earth);
 this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
-this.leaftexture = new CGFtexture(this, "images/leaf1.jpg");
+this.leaftexture = new CGFtexture(this, "images/leaf3.jpg");
 this.leaf_appearance = new CGFappearance(this);
 this.leaf_appearance.setTexture(this.leaftexture);
 this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
