@@ -32,7 +32,7 @@ export class MyLeaf extends CGFobject {
 		var endNormals = [];
 
 		for (var i = 0; i <= this.stacks; i++) {
-			for (var j = 0; j < this.slices; j++) {
+			for (var j = 0; j <= this.slices; j++) {
 				const Qx = Math.cos(j * 2 * Math.PI / this.slices);
 				const Qy = Math.sin(j * 2 * Math.PI / this.slices);
 				const Qz = i*stackSize;
@@ -51,35 +51,37 @@ export class MyLeaf extends CGFobject {
 					const vectorSize = vectorLength(2*Qx, 2*Qy, 0);
 					this.normals.push(2*Qx/vectorSize, 2*Qy/vectorSize, 0);
 				}
-				this.texCoords.push(j/this.slices, i*stackSize);
+				this.texCoords.push(0.33+(i*stackSize*0.33), j/this.slices);
 				if (i!=this.stacks){
-					this.indices.push(i*this.slices + j, i*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
-					this.indices.push(i*this.slices + (j+1)%this.slices, (i+1)*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
+					this.indices.push(i*(this.slices+1) + j, i*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + j);
+					this.indices.push(i*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + j);
 				}
 			}
 		}
 
 		this.vertices.push(0, 0, 2);
 		this.normals.push(0, 0, 1);
+		this.texCoords.push(1, 0.5);
 
-		for (var j = 0; j < this.slices; j++) {
+		for (var j = 0; j <= this.slices; j++) {
 			const Qx = Math.cos(j * 2 * Math.PI / this.slices);
 			const Qy = Math.sin(j * 2 * Math.PI / this.slices);
 			this.vertices.push(Qx, Qy, 1);
-			this.texCoords.push(Qx/2 + 0.5, Qy/2 + 0.5);
-			this.indices.push((this.stacks+1)*this.slices+1+(j+1)%this.slices, (this.stacks+1)*this.slices, (this.stacks+1)*this.slices+1+j);
+			this.texCoords.push(0.66,j/this.slices);
+			this.indices.push((this.stacks+1)*(this.slices+1)+1+(j+1)%(this.slices+1), (this.stacks+1)*(this.slices+1), (this.stacks+1)*(this.slices+1)+1+j);
 		}
 		this.normals = this.normals.concat(endNormals);
 
 		this.vertices.push(0, 0, -1);
 		this.normals.push(0, 0, -1);
+		this.texCoords.push(0, 0.5);
 
-		for (var j = 0; j < this.slices; j++) {
+		for (var j = 0; j <= this.slices; j++) {
 			const Qx = Math.cos(j * 2 * Math.PI / this.slices);
 			const Qy = Math.sin(j * 2 * Math.PI / this.slices);
 			this.vertices.push(Qx, Qy, 0);
-			this.texCoords.push(Qx/2 + 0.5, Qy/2 + 0.5);
-			this.indices.push((this.stacks+2)*this.slices+1, (this.stacks+2)*this.slices+2+(j+1)%this.slices, (this.stacks+2)*this.slices+2+j);
+			this.texCoords.push(0.33,j/this.slices);
+			this.indices.push((this.stacks+2)*(this.slices+1)+1, (this.stacks+2)*(this.slices+1)+2+(j+1)%(this.slices+1), (this.stacks+2)*(this.slices+1)+2+j);
 		}
 
 		this.normals = this.normals.concat(startNormals);

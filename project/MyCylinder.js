@@ -29,7 +29,7 @@ export class MyCylinder extends CGFobject {
 		let stackSize = 1/this.stacks;
 
 		for (var i = 0; i <= this.stacks; i++) {
-			for (var j = 0; j < this.slices; j++) {
+			for (var j = 0; j <= this.slices; j++) {
 				const Qx = Math.cos(j * 2 * Math.PI / this.slices);
 				const Qy = Math.sin(j * 2 * Math.PI / this.slices);
 				const Qz = i*stackSize;
@@ -38,8 +38,8 @@ export class MyCylinder extends CGFobject {
 				this.normals.push(2*Qx/vectorSize, 2*Qy/vectorSize, 0);
 				this.texCoords.push(j/this.slices, i*stackSize);
 				if (i!=this.stacks){
-					this.indices.push(i*this.slices + j, i*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
-					this.indices.push(i*this.slices + (j+1)%this.slices, (i+1)*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
+					this.indices.push(i*(this.slices+1) + j, i*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + j);
+					this.indices.push(i*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + (j+1)%(this.slices+1), (i+1)*(this.slices+1) + j);
 				}
 			}
 		}
