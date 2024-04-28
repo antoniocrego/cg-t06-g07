@@ -14,9 +14,11 @@ function vectorProduct(x1,y1,z1,x2,y2,z2){
  * @param scene - Reference to MyScene object
  */
 export class MyPetal extends CGFobject {
-	constructor(scene, petalAngle) {
+	constructor(scene, petalAngle, coords) {
 		super(scene);
 		this.petalAngle = Math.PI/2 - petalAngle;
+		if (coords != undefined)
+			this.updateTexCoords(coords);
 
 		this.initBuffers();
 	}
@@ -28,6 +30,32 @@ export class MyPetal extends CGFobject {
 		this.indices = [
 		];
 		this.normals = [
+		];
+		this.texCoords = [
+			0.5,0.5,
+			0,0,
+			1,0,
+			0.5,0.5,
+			1,0,
+			1,1,
+			0.5,0.5,
+			1,1,
+			0,1,
+			0.5,0.5,
+			0,1,
+			0,0,
+			0.5,0.5,
+			0,0,
+			1,0,
+			0.5,0.5,
+			1,0,
+			1,1,
+			0.5,0.5,
+			1,1,
+			0,1,
+			0.5,0.5,
+			0,1,
+			0,0,
 		];
 
 		for (var j = 0; j < 4; j++){
@@ -102,6 +130,20 @@ export class MyPetal extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 
 		this.initGLBuffers();
+	}
+
+		/**
+	 * @method updateTexCoords
+	 * Updates the list of texture coordinates of the quad
+	 * @param {Array} coords - Array of texture coordinates
+	 */
+	updateTexCoords(coords) {
+		this.texCoords = [...coords];
+		this.updateTexCoordsGLBuffers();
+	}
+
+	getFirstPoint(){
+		return [this.vertices[0], this.vertices[1], this.vertices[2]];
 	}
 }
 

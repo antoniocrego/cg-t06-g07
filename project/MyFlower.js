@@ -9,19 +9,24 @@ import { MyPetal } from './MyPetal.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius) {
+	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY) {
 		super(scene);
-        this.stem = new MyStem(scene, 10, stemStacks);
+        this.stem = new MyStem(scene, 10, stemStacks, stemRadius);
         this.receptacle = new MyReceptacle(scene, 10, 10, receptacleRadius, false);
         this.petals = [];
         this.modifier = (externalCircumference-receptacleRadius);
         this.petalColor = petalColor;
         this.receptacleRadius = receptacleRadius;
         this.receptacleColor = receptacleColor;
-        this.stemRadius = stemRadius;
         this.stemColor = stemColor;
+        this.flowerRotation = flowerRotation;
+        this.flowerSize = flowerSize;
+        this.petalRotationsX = [];
+        this.petalRotationsY = [];
         for (let i = 0; i < petals; i++) {
             this.petals.push(new MyPetal(scene, petalAngle));
+            this.petalRotationsX.push(Math.random()*(maximumPetalRotationX-minimiumPetalRotationX)+minimiumPetalRotationX);
+            this.petalRotationsY.push(Math.random()*(maximumPetalRotationY-minimiumPetalRotationY)+minimiumPetalRotationY);
         }
 
         this.initMaterials();
@@ -50,12 +55,18 @@ export class MyFlower extends CGFobject {
     
 
     display(){
+        
+        this.scene.pushMatrix();
+
+        this.scene.scale(this.flowerSize, this.flowerSize, this.flowerSize);
+
+        this.scene.rotate(this.flowerRotation, 0, 1, 0);
 
         this.scene.pushMatrix();
 
-        this.scene.rotate(-Math.PI/2, 1, 0, 0);
+        //this.scene.rotate(-Math.PI/2, 1, 0, 0);
 
-        this.scene.scale(this.stemRadius, this.stemRadius, 4);
+        //this.scene.scale(this.stemRadius, this.stemRadius, 2);
 
         this.stemColor.apply();
 
@@ -65,7 +76,9 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 4, 0);
+        this.scene.translate(this.stem.dist, this.stem.height, 0);
+
+        this.scene.rotate(this.stem.randomRotations[this.stem.cylinderCount-1],0,0,1);
 
         this.receptacleColor.apply();
 
@@ -75,24 +88,27 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0, 4, 0);
-
-        this.scene.rotate(Math.PI/2,1,0,0);
-
-        this.scene.rotate(-Math.PI/4, 0, 1, 0);
+        this.scene.translate(this.stem.dist, this.stem.height, 0);
 
         this.petalColor.apply();
 
         for (let i = 0; i < this.petals.length; i++) {
             this.scene.pushMatrix();
+            this.scene.rotate(Math.PI/2,1,0,0);
+            this.scene.rotate(-Math.PI/4, 0, 1, 0);
+            this.scene.rotate(this.stem.randomRotations[this.stem.cylinderCount-1],0,1,0);
             if (this.petals.length > 1) this.scene.rotate(-i * (3*Math.PI/(2*(this.petals.length-1))), 0, 1, 0);
             else this.scene.rotate(-Math.PI + Math.PI/4, 0, 1, 0);
             this.scene.rotate(Math.PI/4, 0, 0, 1);
             this.scene.translate(0,0,this.receptacleRadius);
+            this.scene.rotate(this.petalRotationsX[i], 1, 0, 0);
+            this.scene.rotate(this.petalRotationsY[i], 0, 1, 0);
             this.scene.scale(1,1,this.modifier);
             this.petals[i].display();
             this.scene.popMatrix();
         }
+
+        this.scene.popMatrix();
 
         this.scene.popMatrix();
     }

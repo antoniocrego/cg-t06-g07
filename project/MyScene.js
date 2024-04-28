@@ -4,6 +4,7 @@ import { MySphere } from "./MySphere.js";
 import { MyFlower } from "./MyFlower.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyGarden } from "./MyGarden.js";
+import { MyPetal } from "./MyPetal.js";
 
 /**
  * MyScene
@@ -33,6 +34,7 @@ export class MyScene extends CGFscene {
 
     this.garden = new MyGarden(this);
     this.sphere = new MySphere(this,30,30,4,true);
+    this.petal = new MyPetal(this, 150*Math.PI/180);
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
 
@@ -120,6 +122,8 @@ this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
             this.garden.enableNormalViz();
         else
             this.garden.disableNormalViz();
+
+    //this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
 
     // ---- END Primitive drawing section
   }

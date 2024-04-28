@@ -1,7 +1,8 @@
 import {CGFobject} from '../lib/CGF.js';
+import { MyCylinder} from './MyCylinder.js';
 
-function vectorLength(x,y,z){
-	return Math.sqrt(x*x + y*y + z*z);
+function randomRotateStem(){
+	return Math.random()*Math.PI/6 - Math.PI/12;	
 }
 
 /**
@@ -10,43 +11,58 @@ function vectorLength(x,y,z){
  * @param scene - Reference to MyScene object
  */
 export class MyStem extends CGFobject {
-	constructor(scene, slices, stacks) {
+	constructor(scene, slices, cylinderCount, stemRadius) {
 		super(scene);
 
 		this.slices = slices;
-		this.stacks = stacks;
+		this.cylinderCount = cylinderCount;
+		this.stemRadius = stemRadius;
+		this.cylinders = [];
+		this.randomRotations = [];
 
 		this.initBuffers();
 	}
 	
 	initBuffers() {
-
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-
-		let stackSize = 1/this.stacks;
-
-		for (var i = 0; i <= this.stacks; i++) {
-			for (var j = 0; j < this.slices; j++) {
-				const Qx = Math.cos(j * 2 * Math.PI / this.slices);
-				const Qy = Math.sin(j * 2 * Math.PI / this.slices);
-				const Qz = i*stackSize;
-				this.vertices.push(Qx, Qy, Qz);
-				const vectorSize = vectorLength(2*Qx, 2*Qy, 0);
-				this.normals.push(2*Qx/vectorSize, 2*Qy/vectorSize, 0);
-				if (i!=this.stacks){
-					this.indices.push(i*this.slices + j, i*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
-					this.indices.push(i*this.slices + (j+1)%this.slices, (i+1)*this.slices + (j+1)%this.slices, (i+1)*this.slices + j);
-				}
-			}
+		for (var i = 0; i < this.cylinderCount; i++) {
+			this.cylinders.push(new MyCylinder(this.scene, this.slices, 1));
 		}
 
-		//The defined indices (and corresponding vertices)
-		//will be read in groups of three to draw triangles
-		this.primitiveType = this.scene.gl.TRIANGLES;
+		for (var i = 0; i < this.cylinderCount; i++) {
+			this.randomRotations.push(randomRotateStem());
+		}
+	}
 
-		this.initGLBuffers();
+	display(){
+		var height = 0;
+		var dist = 0;
+		for (var i = 0; i < this.cylinderCount; i++) {
+			var ang = Math.PI/2 - this.randomRotations[i];
+			height += 0.9*Math.sin(ang);
+		}
+
+		this.scene.pushMatrix();
+
+		height = 0;
+
+		for (var i = 0; i < this.cylinderCount; i++) {
+			var ang = Math.PI/2 - this.randomRotations[i];
+			this.scene.pushMatrix();
+			this.scene.translate(dist, height, 0);
+			this.scene.rotate(this.randomRotations[i], 0, 0, 1);
+			this.scene.translate(0, 1, 0);
+			this.scene.rotate(Math.PI/2, 1, 0, 0);
+			this.scene.scale(this.stemRadius, this.stemRadius, 1);
+			this.cylinders[i].display();
+			this.scene.popMatrix();
+			height += 0.95*Math.sin(ang);
+			dist -= 0.95*Math.cos(ang);
+		}
+
+		this.height = height;
+		this.dist = dist;
+
+		this.scene.popMatrix();
 	}
 }
 
