@@ -10,11 +10,13 @@ function vectorLength(x,y,z){
  * @param scene - Reference to MyScene object
  */
 export class MyCylinder extends CGFobject {
-	constructor(scene, slices, stacks) {
+	constructor(scene, slices, stacks, height, radius) {
 		super(scene);
 
 		this.slices = slices;
 		this.stacks = stacks;
+		this.height = height;
+		this.radius = radius;
 
 		this.initBuffers();
 	}
@@ -26,12 +28,12 @@ export class MyCylinder extends CGFobject {
 		this.normals = [];
 		this.texCoords = [];
 
-		let stackSize = 1/this.stacks;
+		let stackSize = this.height/this.stacks;
 
 		for (var i = 0; i <= this.stacks; i++) {
 			for (var j = 0; j <= this.slices; j++) {
-				const Qx = Math.cos(j * 2 * Math.PI / this.slices);
-				const Qy = Math.sin(j * 2 * Math.PI / this.slices);
+				const Qx = this.radius*Math.cos(j * 2 * Math.PI / this.slices);
+				const Qy = this.radius*Math.sin(j * 2 * Math.PI / this.slices);
 				const Qz = i*stackSize;
 				this.vertices.push(Qx, Qy, Qz);
 				const vectorSize = vectorLength(2*Qx, 2*Qy, 0);

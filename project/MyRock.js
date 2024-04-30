@@ -33,7 +33,7 @@ export class MyRock extends CGFobject {
                 }
 
                 if(i == 0 || i == 2*this.stacks){
-                    random = 0;
+                    random = startRandom;
                 }
                 var beta = j * delta_beta;
                 var z = Math.sin(alpha) * Math.cos(beta);
