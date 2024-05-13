@@ -18,7 +18,7 @@ export class MyRockSet extends CGFobject {
             var line = [];
             var randomScale = Math.random()*0.2+0.2;
             for(var i = 0; i < currentHeight; i++){
-                var rock = new MyRock(this.scene, 6, 6, 4);
+                var rock = new MyRock(this.scene, 10, 10, 4);
                 line.push(rock);
             }
             this.rocks.push(line);
@@ -36,7 +36,7 @@ export class MyRockSet extends CGFobject {
             for(var j = 0; j < this.rocks[i].length; j++){
                 this.scene.pushMatrix();
                 this.scene.translate(8*j,height,0);
-                this.scene.scale(1,randomScale,1);
+                this.scene.scale(randomScale,randomScale*0.5,randomScale);
                 this.rocks[i][j].display();
                 this.scene.popMatrix();
             }

@@ -8,6 +8,7 @@ import { MyPetal } from "./MyPetal.js";
 import { MyRock } from "./MyRock.js";
 import { MyRockSet } from "./MyRockSet.js";
 import { MyLeaf } from "./MyLeaf.js";
+import { MyBee } from "./MyBee.js";
 
 /**
  * MyScene
@@ -45,7 +46,8 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
-    this.rockSet = new MyRockSet(this,20);
+    this.rockSet = new MyRockSet(this,4);
+    this.bee = new MyBee(this, 5, 5, 5, 0.1);
 
     this.leaf = new MyLeaf(this, 10, 10);
 
@@ -135,19 +137,23 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     //this.translate(0,4,-10);
 
-    //this.rotate(Math.PI/2,0,0,1);
+    this.gray.apply();
 
-    //this.gray.apply();
+    this.bee.display();
 
-    //this.rock.display();
+    this.popMatrix();
 
-    //this.rockSet.display();
+    this.pushMatrix();
 
-    this.leaf_appearance.apply();
+    this.gray.apply();
 
-    this.leaf.display();
+    this.rockSet.display();
 
-    this.leaf.enableNormalViz();
+    //this.leaf_appearance.apply();
+
+    //this.leaf.display();
+
+    //this.leaf.enableNormalViz();
 
     this.popMatrix();
 
