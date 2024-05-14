@@ -62,9 +62,13 @@ export class MyStem extends CGFobject {
 				if(ang < this.randomRotations[i-1]){
 					this.scene.rotate(Math.PI, 0, 1, 0);
 				}
+				if(i%2 == 0){
+					this.scene.translate(0.4*this.stemRadius,0,0);
+				}
 				this.scene.translate(this.stemRadius,0,0);
 				this.scene.rotate(Math.PI/2, 0, 1, 0);
 				this.scene.scale(this.stemRadius, this.stemRadius, this.stemRadius);
+				this.scene.scale(1.7,1.7,1.7);
 				leave.display();
 				this.scene.popMatrix();
 			}

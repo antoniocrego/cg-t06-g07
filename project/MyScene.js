@@ -47,7 +47,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,4);
-    this.bee = new MyBee(this, 5, 5, 5, 0.1);
+    this.bee = new MyBee(this, 10, 10, 10, 0.1);
 
     this.leaf = new MyLeaf(this, 10, 10);
 
@@ -55,6 +55,9 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.scaleFactor = 1;
     this.displayNormals = false;
+    this.displayBee = true;
+    this.displayGarden = true;
+    this.displayRockset = true;
     this.columns = 5;
     this.rows = 5;
 
@@ -129,7 +132,7 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.pushMatrix();
 
-    this.garden.display(this.rows, this.columns);
+    if (this.displayGarden) this.garden.display(this.rows, this.columns);
     
     this.popMatrix();
 
@@ -139,7 +142,7 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.gray.apply();
 
-    this.bee.display();
+    if (this.displayBee) this.bee.display();
 
     this.popMatrix();
 
@@ -147,7 +150,7 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.gray.apply();
 
-    this.rockSet.display();
+    if(this.displayRockset) this.rockSet.display();
 
     //this.leaf_appearance.apply();
 
