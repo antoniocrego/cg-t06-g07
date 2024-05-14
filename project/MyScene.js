@@ -47,7 +47,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,4);
-    this.bee = new MyBee(this, 10, 10, 10, 0.1);
+    this.bee = new MyBee(this, 0, 0, 0, 0.0);
 
     this.leaf = new MyLeaf(this, 10, 10);
 
@@ -56,8 +56,8 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.displayNormals = false;
     this.displayBee = true;
-    this.displayGarden = true;
-    this.displayRockset = true;
+    this.displayGarden = false;
+    this.displayRockset = false;
     this.columns = 5;
     this.rows = 5;
 

@@ -1,6 +1,7 @@
 import {CGFappearance, CGFobject} from '../lib/CGF.js';
 import {MySphere} from './MySphere.js';
 import {MyCone} from './MyCone.js';
+import {MyCylinder} from './MyCylinder.js';
 
 export class MyBee extends CGFobject {
 	constructor(scene, x, y, z, speed) {
@@ -18,6 +19,8 @@ export class MyBee extends CGFobject {
         this.wing = new MySphere(scene, 20, 20, 1);
         this.sting = new MyCone(scene, 20, 20);
         this.leg = new MySphere(scene, 20, 20, 1);
+        this.cylinder = new MyCylinder(scene, 20, 20, 1, 0.025);
+        this.cap = new MySphere(scene, 20, 20, 0.025);
 	}
 
     initMaterials() {
@@ -49,6 +52,59 @@ export class MyBee extends CGFobject {
         this.scene.pushMatrix(); // head
         
         this.scene.rotate(Math.PI/4, 1, 0, 0);
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(this.head.radius*0.25, this.head.radius+0.3, 0);
+
+        this.cap.display();
+
+        this.scene.pushMatrix();
+
+        this.scene.rotate(Math.PI/12, 0, 1, 0)
+
+        this.cylinder.display();
+
+        this.scene.translate(0, 0, 1);
+
+        this.cap.display();
+
+        this.scene.popMatrix();
+
+        this.scene.scale(1,0.5,1);
+
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+
+        this.cylinder.display();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+
+        this.scene.translate(this.head.radius*-0.25, this.head.radius+0.3, 0);
+
+        this.cap.display();
+
+        this.scene.pushMatrix();
+
+        this.scene.rotate(-Math.PI/12, 0, 1, 0)
+
+        this.cylinder.display();
+
+        this.scene.translate(0, 0, 1);
+
+        this.cap.display();
+
+        this.scene.popMatrix();
+
+        this.scene.scale(1,0.5,1);
+
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
+
+        this.cylinder.display();
+
+        this.scene.popMatrix();
+
         this.scene.scale(1,1,1.5);
 
         this.scene.pushMatrix(); // eye
@@ -289,7 +345,7 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); // sting
 
-        this.scene.translate(0, 0.2, -this.bottom.radius*2);
+        this.scene.translate(0, 0.2, -this.bottom.radius*1.9);
 
         this.scene.scale(0.1, 0.1, 0.5);
 
