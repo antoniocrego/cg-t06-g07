@@ -16,7 +16,8 @@ export class MyBee extends CGFobject {
         this.body = new MySphere(scene, 20, 20, 1);
         this.bottom = new MySphere(scene, 20, 20, 1);
         this.eye = new MySphere(scene, 20, 20, 1);
-        this.wing = new MySphere(scene, 2, 20, 1);
+        this.wingL = new MySphere(scene, 20, 20, 1,);
+        this.wingR = new MySphere(scene, 20, 20, 1, true);
         this.sting = new MyCone(scene, 20, 20);
         this.leg = new MySphere(scene, 20, 20, 1);
 
@@ -64,22 +65,27 @@ export class MyBee extends CGFobject {
 
         this.wingLTexture = new CGFtexture(scene, 'images/bee-wingl.jpg');
         this.wingLAppearance = new CGFappearance(scene);
-        this.wingLAppearance.setAmbient(0.9, 0.9, 0.9, 0.4);
-        this.wingLAppearance.setDiffuse(0.1, 0.1, 0.1, 0.4);
-        this.wingLAppearance.setSpecular(0.1, 0.1, 0.1, 0.4);
-        this.wingLAppearance.setShininess(10.0);
+        this.wingLAppearance.setAmbient(0.9, 0.9, 0.9, 0);
+        this.wingLAppearance.setDiffuse(0.9, 0.9, 0.9, 0.9);
+        this.wingLAppearance.setSpecular(0.9, 0.9, 0.9, 0.9);
+        this.wingLAppearance.setShininess(50.0);
+        this.wingLAppearance.setEmission(0.3, 0.3, 0.3, 0);
         this.wingLAppearance.setTexture(this.wingLTexture);
 
         this.wingRTexture = new CGFtexture(scene, 'images/bee-wingr.jpg');
         this.wingRAppearance = new CGFappearance(scene);
-        this.wingRAppearance.setAmbient(0.9, 0.9, 0.9, 0.4);
-        this.wingRAppearance.setDiffuse(0.1, 0.1, 0.1, 0.4);
-        this.wingRAppearance.setSpecular(0.1, 0.1, 0.1, 0.4);
-        this.wingRAppearance.setShininess(10.0);
+        this.wingRAppearance.setAmbient(0.9, 0.9, 0.9, 0);
+        this.wingRAppearance.setDiffuse(0.9, 0.9, 0.9, 0.9);
+        this.wingRAppearance.setSpecular(0.9, 0.9, 0.9, 0.9);
+        this.wingRAppearance.setShininess(50.0);
+        this.wingRAppearance.setEmission(0.3, 0.3, 0.3, 0);
         this.wingRAppearance.setTexture(this.wingRTexture);
         
         this.carryingPolen1 = new MyPollen(scene, 10, 10, 0.1, false);
         this.carryingPolen2 = new MyPollen(scene, 10, 10, 0.1, false);
+
+        this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
+        this.scene.gl.enable(this.scene.gl.BLEND);
 	}
 
     initMaterials() {
@@ -240,16 +246,18 @@ export class MyBee extends CGFobject {
 
         this.scene.rotate(Math.PI/6, 1, 0, 0);
 
-        this.scene.scale(1, -1, -0.8);
+        this.scene.scale(0.02, -1, -0.8);
 
-        this.wing.display();
+        this.wingL.display();
+
+        //this.wing.enableNormalViz();
 
         this.scene.popMatrix();
 
 
-        this.scene.scale(1, -2.2, -0.8);
+        this.scene.scale(0.02, -2.2, -0.8);
 
-        this.wing.display();
+        this.wingL.display();
 
         this.scene.popMatrix();
 
@@ -258,25 +266,25 @@ export class MyBee extends CGFobject {
         this.scene.translate(-this.body.radius,0.1,0.5);
         this.scene.rotate(-this.wingRotation, 0, 0, 1);
         this.scene.translate(-this.body.radius,0,0);
-        this.scene.rotate(-Math.PI/2, 0, 0, 1);
+        this.scene.rotate(Math.PI/2, 0, 0, 1);
 
         this.wingRAppearance.apply();
 
         this.scene.pushMatrix();
 
-        this.scene.translate(0.05, 0, -1*this.body.radius);
+        this.scene.translate(-0.05, 0, -1*this.body.radius);
 
-        this.scene.rotate(Math.PI/6, 1, 0, 0);
+        this.scene.rotate(-Math.PI/6, 1, 0, 0);
 
-        this.scene.scale(1, -1, -0.8);
+        this.scene.scale(0.02, -1, -0.8);
 
-        this.wing.display();
+        this.wingR.display();
 
         this.scene.popMatrix();
 
-        this.scene.scale(1, -2.2, -0.8);
+        this.scene.scale(0.02, -2.2, -0.8);
 
-        this.wing.display();
+        this.wingR.display();
 
         this.scene.popMatrix();
 
