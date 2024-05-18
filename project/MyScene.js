@@ -43,9 +43,9 @@ export class MyScene extends CGFscene {
     this.gray.setShininess(3.0);
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    //this.rock = new MyRock(this, 6, 6, 4);
-    //this.rockSet = new MyRockSet(this,4);
-    //this.bee = new MyBee(this, 0, 3, 0, [0,0]);
+    this.rock = new MyRock(this, 6, 6, 4);
+    this.rockSet = new MyRockSet(this,4);
+    this.bee = new MyBee(this, 0, 3, 0, [0,0]);
 
     // animation
     this.setUpdatePeriod(50);
@@ -54,6 +54,9 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displayNormals = false;
+    this.displayBee = true;
+    this.displayGarden = false;
+    this.displayRockset = false;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -180,7 +183,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    this.garden.display(this.rows, this.columns);
+    if (this.displayGarden) this.garden.display(this.rows, this.columns);
     
     this.popMatrix();
 
@@ -190,7 +193,7 @@ export class MyScene extends CGFscene {
 
     this.gray.apply();
 
-    //this.bee.display(this.scaleFactor);
+    if (this.displayBee) this.bee.display();
 
     this.popMatrix();
 
@@ -198,7 +201,7 @@ export class MyScene extends CGFscene {
 
     this.gray.apply();
 
-    //this.rockSet.display();
+    if(this.displayRockset) this.rockSet.display();
 
     this.popMatrix();
 
