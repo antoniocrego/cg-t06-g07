@@ -292,6 +292,8 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); //leg
 
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+
         this.scene.translate(0.5, -this.body.radius, 0.5);
 
         this.scene.rotate(-Math.PI/4, 0, 0, 1);
@@ -303,6 +305,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
         
         this.scene.translate(0.5, -this.body.radius, 0.5);
 
@@ -312,11 +316,14 @@ export class MyBee extends CGFobject {
 
         this.scene.scale(0.5, 0.1, 0.1);
 
+
         this.leg.display();
 
         this.scene.popMatrix();
 
         this.scene.pushMatrix(); //leg
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius/2);
 
@@ -331,6 +338,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius/2);
 
@@ -347,6 +356,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix(); //leg
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius);
 
@@ -361,6 +372,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius);
 
@@ -384,6 +397,8 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); //leg
 
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+
         this.scene.translate(0.5, -this.body.radius, 0.5);
 
         this.scene.rotate(-Math.PI/4, 0, 0, 1);
@@ -395,6 +410,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
         
         this.scene.translate(0.5, -this.body.radius, 0.5);
 
@@ -410,6 +427,8 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); //leg
 
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+
         this.scene.translate( 0, 0, -this.body.radius/2);
 
         this.scene.translate(0.5, -this.body.radius, 0.5);
@@ -423,6 +442,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius/2);
 
@@ -440,6 +461,8 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); //leg
 
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+
         this.scene.translate( 0, 0, -this.body.radius);
 
         this.scene.translate(0.5, -this.body.radius, 0.5);
@@ -453,6 +476,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+
+        this.scene.rotate(this.legRotation/2, 0, 0, 1);
 
         this.scene.translate( 0, 0, -this.body.radius);
 
