@@ -12,7 +12,7 @@ function randomRotateStem(){
  * @param scene - Reference to MyScene object
  */
 export class MyStem extends CGFobject {
-	constructor(scene, slices, cylinderCount, stemRadius) {
+	constructor(scene, slices, cylinderCount, stemRadius, stemTexture, leafTexture) {
 		super(scene);
 
 		this.slices = slices;
@@ -21,6 +21,8 @@ export class MyStem extends CGFobject {
 		this.cylinders = [];
 		this.randomRotations = [];
 		this.leaves = [];
+		this.stemTexture = stemTexture;
+		this.leafTexture = leafTexture;
 
 		this.initBuffers();
 	}
@@ -53,6 +55,7 @@ export class MyStem extends CGFobject {
 			this.scene.translate(-dist, height, 0);
 			this.scene.rotate(ang, 0, 0, 1);
 			this.scene.rotate(-Math.PI/2, 1, 0, 0);
+			this.stemTexture.apply();
 			cylinder.display();
 			this.scene.popMatrix();
 			if(i > 0){
@@ -69,6 +72,7 @@ export class MyStem extends CGFobject {
 				this.scene.rotate(Math.PI/2, 0, 1, 0);
 				this.scene.scale(this.stemRadius, this.stemRadius, this.stemRadius);
 				this.scene.scale(1.7,1.7,1.7);
+				this.leafTexture.apply();
 				leave.display();
 				this.scene.popMatrix();
 			}
