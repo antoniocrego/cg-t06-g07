@@ -1,47 +1,61 @@
-
-import {CGFobject} from '../lib/CGF.js';
+import { CGFobject } from '../lib/CGF.js';
 import { MyRock } from './MyRock.js';
 
 export class MyRockSet extends CGFobject {
-	constructor(scene, height) {
+    constructor(scene, height) {
         super(scene);
         this.height = height;
         this.rocks = [];
         this.randomScales = [];
         this.initBuffers();
-	}
+    }
 
-	initBuffers(){
-        var currentHeight = this.height;
-
-        while(currentHeight > 0){
-            var line = [];
-            var randomScale = Math.random()*0.2+0.2;
-            for(var i = 0; i < currentHeight; i++){
-                var rock = new MyRock(this.scene, 10, 10, 4);
-                line.push(rock);
+    initBuffers() {
+        // Initialize rocks and their random scales
+        for (let i = 0; i < this.height; i++) {
+            this.rocks[i] = [];
+            this.randomScales[i] = [];
+            for (let j = 0; j < (this.height - i); j++) {
+                this.rocks[i][j] = [];
+                this.randomScales[i][j] = [];
+                for (let k = 0; k < (this.height - i); k++) {
+                    const rock = new MyRock(this.scene, 10, 10, 1);
+                    this.rocks[i][j].push(rock);
+                    const randomScale = [Math.random() * 0.7 + 0.7, Math.random() * 0.2 + 0.4, Math.random() * 0.7 + 0.7];
+                    this.randomScales[i][j].push(randomScale);
+                }
             }
-            this.rocks.push(line);
-            this.randomScales.push(randomScale);
-            currentHeight--;
         }
     }
 
-    display(){
-        var height = 0;
-        for(var i = 0; i < this.rocks.length; i++){
-            this.scene.pushMatrix();
-            this.scene.translate(i*4+4,0,0);
-            var randomScale = this.randomScales[i];
-            for(var j = 0; j < this.rocks[i].length; j++){
-                this.scene.pushMatrix();
-                this.scene.translate(8*j,height,0);
-                this.scene.scale(randomScale,randomScale*0.5,randomScale);
-                this.rocks[i][j].display();
-                this.scene.popMatrix();
+    display() {
+        for (let i = 0; i < this.height; i++) {
+            let layerSize = this.height - i;
+            let rockDistance = 1.5;
+            let offset = ((rockDistance-1)*i + i) * 0.5; // Calculate offset to center the layer
+
+            for (let j = 0; j < layerSize; j++) {
+                for (let k = 0; k < layerSize; k++) {
+                    this.scene.pushMatrix();
+                    
+                    // Calculate the position for the rock
+                    const x = j * rockDistance + offset;
+                    const y = i*0.75    ;
+                    const z = k * rockDistance + offset;
+
+                    // Apply translation
+                    this.scene.translate(x, y, z);
+
+                    // Apply scaling
+                    const randomScale = this.randomScales[i][j][k];
+                    this.scene.scale(randomScale[0], randomScale[1], randomScale[2]);
+
+                    // Display the rock
+                    this.rocks[i][j][k].display();
+
+                    this.scene.popMatrix();
+                }
             }
-            height += 4*randomScale;
-            this.scene.popMatrix();
         }
     }
 }

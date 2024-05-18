@@ -28,7 +28,8 @@ export class MyGarden extends CGFobject {
                 var minimiumPetalRotationY = -Math.random()*Math.PI/6;
                 var maximumPetalRotationY = Math.random()*Math.PI/6;
                 var receptacleTex = this.receptacleTexs[Math.floor(Math.random()*3)];
-                this.flowers.push(new MyFlower(this.scene, petals, petalColor, petalAngle, receptacleRadius, receptacleTex, stemRadius, stemHeight, stemTex, externalCircumference, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, this.pollen_appearance));
+                var leafTexture = this.leafTexs[Math.floor(Math.random()*3)];
+                this.flowers.push(new MyFlower(this.scene, petals, petalColor, petalAngle, receptacleRadius, receptacleTex, stemRadius, stemHeight, stemTex, externalCircumference, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, leafTexture, this.pollen_appearance));
             }
         }
 	}
@@ -86,6 +87,16 @@ export class MyGarden extends CGFobject {
         receptacle3.setTexture(new CGFtexture(this.scene, "images/receptacle3.jpg"));
         receptacle3.setTextureWrap('REPEAT', 'REPEAT');
         this.receptacleTexs = [receptacle1, receptacle2, receptacle3];
+        var leaf1 = new CGFappearance(this.scene);
+        leaf1.setTexture(new CGFtexture(this.scene, "images/leaf1.jpg"));
+        leaf1.setTextureWrap('REPEAT', 'REPEAT');
+        var leaf2 = new CGFappearance(this.scene);
+        leaf2.setTexture(new CGFtexture(this.scene, "images/leaf2.jpg"));
+        leaf2.setTextureWrap('REPEAT', 'REPEAT');
+        var leaf3 = new CGFappearance(this.scene);
+        leaf3.setTexture(new CGFtexture(this.scene, "images/leaf3.jpg"));
+        leaf3.setTextureWrap('REPEAT', 'REPEAT');
+        this.leafTexs = [leaf1, leaf2, leaf3];
     }
 
     enableNormalViz(){

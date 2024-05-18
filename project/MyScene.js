@@ -1,14 +1,11 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
-import { MySphere } from "./MySphere.js";
-import { MyFlower } from "./MyFlower.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyGarden } from "./MyGarden.js";
-import { MyPetal } from "./MyPetal.js";
 import { MyRock } from "./MyRock.js";
 import { MyRockSet } from "./MyRockSet.js";
-import { MyLeaf } from "./MyLeaf.js";
 import { MyBee } from "./MyBee.js";
+import { MyHive } from "./MyHive.js";
 
 /**
  * MyScene
@@ -44,8 +41,9 @@ export class MyScene extends CGFscene {
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
-    this.rockSet = new MyRockSet(this,4);
+    this.rockSet = new MyRockSet(this,10);
     this.bee = new MyBee(this, 0, 3, 0, [0,0]);
+    this.hive = new MyHive(this);
 
     // animation
     this.setUpdatePeriod(50);
@@ -56,7 +54,7 @@ export class MyScene extends CGFscene {
     this.displayNormals = false;
     this.displayBee = true;
     this.displayGarden = false;
-    this.displayRockset = false;
+    this.displayRockset = true  ;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -201,7 +199,13 @@ export class MyScene extends CGFscene {
 
     this.gray.apply();
 
+    this.translate(-14.5,0,-14.5);
+
     if(this.displayRockset) this.rockSet.display();
+
+    this.translate(6.5,3.5,6.5);
+
+    this.hive.display();
 
     this.popMatrix();
 

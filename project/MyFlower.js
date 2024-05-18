@@ -10,16 +10,15 @@ import { MyPollen } from './MyPollen.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, pollen_appearance) {
+	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, leafTexture, pollen_appearance) {
 		super(scene);
-        this.stem = new MyStem(scene, 10, stemStacks, stemRadius);
+        this.stem = new MyStem(scene, 10, stemStacks, stemRadius, stemColor, leafTexture);
         this.receptacle = new MyReceptacle(scene, 10, 10, receptacleRadius, false);
         this.petals = [];
         this.modifier = (externalCircumference-receptacleRadius);
         this.petalColor = petalColor;
         this.receptacleRadius = receptacleRadius;
         this.receptacleColor = receptacleColor;
-        this.stemColor = stemColor;
         this.flowerRotation = flowerRotation;
         this.flowerSize = flowerSize;
         this.petalRotationsX = [];
@@ -65,8 +64,6 @@ export class MyFlower extends CGFobject {
         this.scene.rotate(this.flowerRotation, 0, 1, 0);
 
         this.scene.pushMatrix();
-
-        this.stemColor.apply();
 
         this.stem.display();
 
