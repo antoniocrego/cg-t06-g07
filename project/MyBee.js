@@ -2,6 +2,7 @@ import {CGFappearance, CGFobject} from '../lib/CGF.js';
 import {MySphere} from './MySphere.js';
 import {MyCone} from './MyCone.js';
 import {MyCylinder} from './MyCylinder.js';
+import {MyPollen} from './MyPollen.js';
 
 export class MyBee extends CGFobject {
 	constructor(scene, x, y, z, speed) {
@@ -28,6 +29,9 @@ export class MyBee extends CGFobject {
         this.wholeRotation = 0;
         this.cylinder = new MyCylinder(scene, 20, 20, 1, 0.025);
         this.cap = new MySphere(scene, 20, 20, 0.025);
+
+        this.carryingPolen1 = new MyPollen(scene, 10, 10, 0.1, false);
+        this.carryingPolen2 = new MyPollen(scene, 10, 10, 0.1, false);
 	}
 
     initMaterials() {
@@ -71,6 +75,13 @@ export class MyBee extends CGFobject {
         this.z = 0;
         this.speed = [0,0];
         this.direction = 0;
+    }
+
+    carryPolen(polen){
+        if (this.carryingPolen1 == null) this.carryingPolen1 = polen;
+        else if (this.carryingPolen2 == null) this.carryingPolen2 = polen;
+        else return false;
+        return true;
     }
 
     display(scale){

@@ -60,7 +60,7 @@ export class MyScene extends CGFscene {
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
-    this.scaleFactor = 1;
+    this.scaleFactor = 0.5;
 
     this.enableTextures(true);
 
@@ -146,9 +146,9 @@ export class MyScene extends CGFscene {
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
 
-      //this.checkKeys();
+      this.checkKeys();
 
-      //this.bee.update(timeSinceAppStart);
+      this.bee.update(timeSinceAppStart);
     }
   display() {
     // ---- BEGIN Background, camera and axis setup
@@ -193,7 +193,7 @@ export class MyScene extends CGFscene {
 
     this.gray.apply();
 
-    if (this.displayBee) this.bee.display();
+    if (this.displayBee) this.bee.display(this.scaleFactor);
 
     this.popMatrix();
 

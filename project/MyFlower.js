@@ -29,8 +29,8 @@ export class MyFlower extends CGFobject {
             this.petalRotationsX.push(Math.random()*(maximumPetalRotationX-minimiumPetalRotationX)+minimiumPetalRotationX);
             this.petalRotationsY.push(Math.random()*(maximumPetalRotationY-minimiumPetalRotationY)+minimiumPetalRotationY);
         }
-        //this.pollen_appearance = pollen_appearance;
-        //this.pollen = new MyPollen(scene, 10, 10, receptacleRadius*0.9, false);
+        this.pollen_appearance = pollen_appearance;
+        this.pollen = new MyPollen(scene, 10, 10, receptacleRadius*0.9, false);
         this.initMaterials();
 	}
 
@@ -66,10 +66,6 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        //this.scene.rotate(-Math.PI/2, 1, 0, 0);
-
-        //this.scene.scale(this.stemRadius, this.stemRadius, 2);
-
         this.stemColor.apply();
 
         this.stem.display();
@@ -86,9 +82,9 @@ export class MyFlower extends CGFobject {
 
         this.receptacle.display();
 
-        //this.pollen_appearance.apply();
+        this.pollen_appearance.apply();
 
-        //this.pollen.display();
+        this.pollen.display();
 
         this.scene.popMatrix();
 
