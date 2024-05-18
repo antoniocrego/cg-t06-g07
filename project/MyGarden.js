@@ -28,12 +28,16 @@ export class MyGarden extends CGFobject {
                 var minimiumPetalRotationY = -Math.random()*Math.PI/6;
                 var maximumPetalRotationY = Math.random()*Math.PI/6;
                 var receptacleTex = this.receptacleTexs[Math.floor(Math.random()*3)];
-                this.flowers.push(new MyFlower(this.scene, petals, petalColor, petalAngle, receptacleRadius, receptacleTex, stemRadius, stemHeight, stemTex, externalCircumference, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY));
+                this.flowers.push(new MyFlower(this.scene, petals, petalColor, petalAngle, receptacleRadius, receptacleTex, stemRadius, stemHeight, stemTex, externalCircumference, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, this.pollen_appearance));
             }
         }
 	}
 
     initMaterials() {
+        this.pollenTexture = new CGFtexture(this.scene, "images/pollen.jpg");
+        this.pollen_appearance = new CGFappearance(this.scene);
+        this.pollen_appearance.setTexture(this.pollenTexture);
+        this.pollen_appearance.setTextureWrap('REPEAT', 'REPEAT');
         this.red = new CGFappearance(this.scene);
         this.red.setAmbient(1, 0, 0, 1);
         this.red.setDiffuse(1, 0, 0, 1);

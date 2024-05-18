@@ -41,39 +41,82 @@ export class MyScene extends CGFscene {
     this.gray.setDiffuse(0.3, 0.3, 0.3, 1);
     this.gray.setSpecular(0.3, 0.3, 0.3, 1);
     this.gray.setShininess(3.0);
-    this.sphere = new MySphere(this,30,30,4,true);
-    this.petal = new MyPetal(this, 150*Math.PI/180);
     this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
     this.panorama = new MyPanorama(this, this.panoramaTexture);
-    this.rock = new MyRock(this, 6, 6, 4);
-    this.rockSet = new MyRockSet(this,4);
-    this.bee = new MyBee(this, 5, 5, 5, 0.1);
+    //this.rock = new MyRock(this, 6, 6, 4);
+    //this.rockSet = new MyRockSet(this,4);
+    //this.bee = new MyBee(this, 0, 3, 0, [0,0]);
 
-    this.leaf = new MyLeaf(this, 10, 10);
+    // animation
+    this.setUpdatePeriod(50);
+    this.appStartTime=Date.now();
 
     //Objects connected to MyInterface
     this.displayAxis = true;
-    this.scaleFactor = 1;
     this.displayNormals = false;
     this.columns = 5;
     this.rows = 5;
+    this.speedFactor = 1;
+    this.scaleFactor = 1;
 
     this.enableTextures(true);
 
-this.terrain = new CGFtexture(this, "images/terrain.jpg");
-this.terrain_appearance = new CGFappearance(this);
-this.terrain_appearance.setTexture(this.terrain);
-this.terrain_appearance.setTextureWrap('REPEAT', 'REPEAT');
+    this.terrain = new CGFtexture(this, "images/terrain.jpg");
+    this.terrain_appearance = new CGFappearance(this);
+    this.terrain_appearance.setTexture(this.terrain);
+    this.terrain_appearance.setTextureWrap('REPEAT', 'REPEAT');
 
-this.earth = new CGFtexture(this, "images/panorama4.jpg");
-this.earth_appearance = new CGFappearance(this);
-this.earth_appearance.setTexture(this.earth);
-this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
-this.leaftexture = new CGFtexture(this, "images/leaf3.jpg");
-this.leaf_appearance = new CGFappearance(this);
-this.leaf_appearance.setTexture(this.leaftexture);
-this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
-
+    this.earth = new CGFtexture(this, "images/panorama4.jpg");
+    this.earth_appearance = new CGFappearance(this);
+    this.earth_appearance.setTexture(this.earth);
+    this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
+    this.leaftexture = new CGFtexture(this, "images/leaf3.jpg");
+    this.leaf_appearance = new CGFappearance(this);
+    this.leaf_appearance.setTexture(this.leaftexture);
+    this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+  }
+  checkKeys() {
+    var text="Keys pressed: ";
+    var keysPressedF=false;
+    var keysPressedS=false;
+    var beeSpeed = 0;
+    var beeRotation = 0;
+    // Check for key codes e.g. in https://keycode.info/
+    if (this.gui.isKeyPressed("KeyW")) {
+            text+=" W ";
+            beeSpeed+=0.1;
+            keysPressedF=true;
+    }
+    if (this.gui.isKeyPressed("KeyS")){
+            text+=" S ";
+            beeSpeed-=0.2;
+            keysPressedF=true;
+    }
+    if (this.gui.isKeyPressed("KeyA")){
+            text+=" A ";
+            beeRotation+=Math.PI/16.0;
+            keysPressedS=true;
+    }
+    if (this.gui.isKeyPressed("KeyD")){
+            text+=" D ";
+            beeRotation-=Math.PI/16.0;
+            keysPressedS=true;
+    }
+    if (this.gui.isKeyPressed("KeyR")){
+            text+=" R ";
+            this.bee.reset();
+    }
+    if (keysPressedF){
+      console.log(text);
+      this.bee.accelerate(beeSpeed*this.speedFactor);
+    }
+    else{
+      this.bee.deaccelerate(Math.sqrt(this.bee.speed[0]**2 + this.bee.speed[1]**2)/5);
+    }
+    if (keysPressedS){
+      console.log(text);
+      this.bee.turn(beeRotation*this.speedFactor);
+    }
   }
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
@@ -96,6 +139,14 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+  update(t)
+  {
+      var timeSinceAppStart=(t-this.appStartTime)/1000.0;
+
+      //this.checkKeys();
+
+      //this.bee.update(timeSinceAppStart);
+    }
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -139,7 +190,7 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.gray.apply();
 
-    this.bee.display();
+    //this.bee.display(this.scaleFactor);
 
     this.popMatrix();
 
@@ -147,13 +198,7 @@ this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
     this.gray.apply();
 
-    this.rockSet.display();
-
-    //this.leaf_appearance.apply();
-
-    //this.leaf.display();
-
-    //this.leaf.enableNormalViz();
+    //this.rockSet.display();
 
     this.popMatrix();
 
