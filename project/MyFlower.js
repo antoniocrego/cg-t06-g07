@@ -2,6 +2,7 @@ import {CGFappearance, CGFobject} from '../lib/CGF.js';
 import { MyStem } from "./MyStem.js";
 import { MyReceptacle } from './MyReceptacle.js';
 import { MyPetal } from './MyPetal.js';
+import { MyPollen } from './MyPollen.js';
 
 /**
  * MyTangram
@@ -9,7 +10,7 @@ import { MyPetal } from './MyPetal.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY) {
+	constructor(scene, petals, petalColor, petalAngle, receptacleRadius, receptacleColor, stemRadius, stemStacks, stemColor, externalCircumference=1+receptacleRadius, flowerRotation, flowerSize, minimiumPetalRotationX, maximumPetalRotationX, minimiumPetalRotationY, maximumPetalRotationY, pollen_appearance) {
 		super(scene);
         this.stem = new MyStem(scene, 10, stemStacks, stemRadius);
         this.receptacle = new MyReceptacle(scene, 10, 10, receptacleRadius, false);
@@ -28,7 +29,8 @@ export class MyFlower extends CGFobject {
             this.petalRotationsX.push(Math.random()*(maximumPetalRotationX-minimiumPetalRotationX)+minimiumPetalRotationX);
             this.petalRotationsY.push(Math.random()*(maximumPetalRotationY-minimiumPetalRotationY)+minimiumPetalRotationY);
         }
-
+        this.pollen_appearance = pollen_appearance;
+        this.pollen = new MyPollen(scene, 10, 10, receptacleRadius*0.9, false);
         this.initMaterials();
 	}
 
@@ -64,10 +66,6 @@ export class MyFlower extends CGFobject {
 
         this.scene.pushMatrix();
 
-        //this.scene.rotate(-Math.PI/2, 1, 0, 0);
-
-        //this.scene.scale(this.stemRadius, this.stemRadius, 2);
-
         this.stemColor.apply();
 
         this.stem.display();
@@ -83,6 +81,10 @@ export class MyFlower extends CGFobject {
         this.receptacleColor.apply();
 
         this.receptacle.display();
+
+        this.pollen_appearance.apply();
+
+        this.pollen.display();
 
         this.scene.popMatrix();
 
