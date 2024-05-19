@@ -16,7 +16,7 @@ export class MyBee extends CGFobject {
         this.body = new MySphere(scene, 20, 20, 1);
         this.bottom = new MySphere(scene, 20, 20, 1);
         this.eye = new MySphere(scene, 20, 20, 1);
-        this.wingL = new MySphere(scene, 20, 20, 1,);
+        this.wingL = new MySphere(scene, 20, 20, 1, true);
         this.wingR = new MySphere(scene, 20, 20, 1, true);
         this.sting = new MyCone(scene, 20, 20);
         this.leg = new MySphere(scene, 20, 20, 1);
@@ -80,9 +80,17 @@ export class MyBee extends CGFobject {
         this.wingRAppearance.setShininess(50.0);
         this.wingRAppearance.setEmission(0.3, 0.3, 0.3, 0);
         this.wingRAppearance.setTexture(this.wingRTexture);
+
+        this.polenTexture = new CGFtexture(scene, 'images/pollen.jpg');
+        this.polenAppearance = new CGFappearance(scene);
+        this.polenAppearance.setAmbient(0.1, 0.1, 0.1, 1);
+        this.polenAppearance.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.polenAppearance.setSpecular(0.1, 0.1, 0.1, 1);
+        this.polenAppearance.setShininess(10.0);
+        this.polenAppearance.setTexture(this.polenTexture);
         
-        this.carryingPolen1 = new MyPollen(scene, 10, 10, 0.1, false);
-        this.carryingPolen2 = new MyPollen(scene, 10, 10, 0.1, false);
+        this.carryingPolen1 = new MyPollen(scene, 10, 10, 1, false);
+        this.carryingPolen2 = new MyPollen(scene, 10, 10, 1, false);
 
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
         this.scene.gl.enable(this.scene.gl.BLEND);
@@ -116,7 +124,7 @@ export class MyBee extends CGFobject {
 
     update(time) {
         this.legRotation = Math.sin(2 * Math.PI * this.frequency * time) * this.amplitude;
-        this.y = this.initialY + this.legRotation;
+        this.y = this.initialY + this.legRotation*0;
         this.wingRotation = Math.sin(2 * Math.PI * 2.5 * time) * 0.6;
 
         this.z += this.speed[0];
@@ -138,87 +146,48 @@ export class MyBee extends CGFobject {
         return true;
     }
 
-    display(scale){
-        this.scene.pushMatrix();
+    displayHead(){
 
-        this.scene.translate(this.x, this.y, this.z);
+        this.scene.pushMatrix(); // head        
 
-        this.scene.rotate(this.direction, 0, 1, 0);
-
-        this.scene.scale(scale, scale, scale);
-
-        this.scene.pushMatrix(); // head
-
-        this.furDarkAppearance.apply();
-        
         this.scene.rotate(Math.PI/4, 1, 0, 0);
 
-        this.scene.pushMatrix();
+        this.scene.pushMatrix(); // left antenna
 
-        this.scene.translate(this.head.radius*0.25, this.head.radius+0.3, 0);
+        this.scene.translate(this.head.radius*0.25, this.head.radius*0.5 + 0.5, 0);
 
-        this.cap.display();
+        this.scene.rotate(Math.PI/12, 0, 1, 0);
 
-        this.scene.pushMatrix();
-
-        this.scene.rotate(Math.PI/12, 0, 1, 0)
-
-        this.cylinder.display();
-
-        this.scene.translate(0, 0, 1);
-
-        this.cap.display();
+        this.displayAntenna();
 
         this.scene.popMatrix();
 
-        this.scene.scale(1,0.5,1);
+        this.scene.pushMatrix(); // right antenna
 
-        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.translate(-this.head.radius*0.25, this.head.radius*0.5 + 0.5, 0);
 
-        this.cylinder.display();
+        this.scene.rotate(-Math.PI/12, 0, 1, 0);
 
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.translate(this.head.radius*-0.25, this.head.radius+0.3, 0);
-
-        this.cap.display();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(-Math.PI/12, 0, 1, 0)
-
-        this.cylinder.display();
-
-        this.scene.translate(0, 0, 1);
-
-        this.cap.display();
-
-        this.scene.popMatrix();
-
-        this.scene.scale(1,0.5,1);
-
-        this.scene.rotate(Math.PI/2, 1, 0, 0);
-
-        this.cylinder.display();
+        this.displayAntenna();
 
         this.scene.popMatrix();
 
         this.scene.scale(1,1,1.5);
 
-        this.scene.pushMatrix(); // eye
-        this.scene.translate(this.head.radius*0.8, 0, -0.2);
-        this.scene.scale(0.5, 0.5, 0.5);
-        this.eyeAppearance.apply();
-        this.eye.display();
+        this.scene.pushMatrix(); // left eye
+
+        this.scene.translate(this.head.radius*0.5 + this.eye.radius*0.2, this.head.radius*0.25, 0);
+
+        this.displayEye();
+
         this.scene.popMatrix();
 
-        this.scene.pushMatrix(); // eye
-        this.scene.translate(-this.head.radius*0.8, 0, -0.2);
-        this.scene.scale(0.5, 0.5, 0.5);
-        this.eyeAppearance.apply();
-        this.eye.display();
+        this.scene.pushMatrix(); // right eye
+
+        this.scene.translate(-this.head.radius*0.5 - this.eye.radius*0.2, this.head.radius*0.25, 0);
+
+        this.displayEye();
+
         this.scene.popMatrix();
 
         this.furLightAppearance.apply();
@@ -227,274 +196,256 @@ export class MyBee extends CGFobject {
 
         this.scene.popMatrix();
 
-        this.scene.pushMatrix(); // body
+    }
 
-        this.scene.translate(0, -0.5, -this.head.radius*2);
+    displayAntenna(){
+        this.scene.pushMatrix();
 
-        this.scene.pushMatrix(); // wing
+        this.scene.translate(0, this.cylinder.height*0.5, 0);
 
-        this.scene.translate(this.body.radius,0.1,0.5);
-        this.scene.rotate(this.wingRotation, 0, 0, 1);
-        this.scene.translate(this.body.radius,0,0);
-        this.scene.rotate(Math.PI/2, 0, 0, 1);
+        this.furDarkAppearance.apply();
 
-        this.wingLAppearance.apply();
+        this.cap.display();
 
         this.scene.pushMatrix();
 
-        this.scene.translate(-0.05, 0, -1*this.body.radius);
+        this.cylinder.display();
 
-        this.scene.rotate(Math.PI/6, 1, 0, 0);
+        this.scene.translate(0, 0, 1);
 
-        this.scene.scale(0.02, -1, -0.8);
-
-        this.wingL.display();
-
-        //this.wing.enableNormalViz();
+        this.cap.display();
 
         this.scene.popMatrix();
 
+        this.scene.scale(1,0.5,1);
 
-        this.scene.scale(0.02, -2.2, -0.8);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
 
-        this.wingL.display();
+        this.cylinder.display();
 
         this.scene.popMatrix();
+    }
+
+    displayEye(){
+        this.scene.pushMatrix(); // eye
+        this.scene.scale(0.5, 0.5, 0.5);
+        this.eyeAppearance.apply();
+        this.eye.display();
+        this.scene.popMatrix();
+    }
+
+    displayPollen(pollen){
+        this.scene.pushMatrix(); //pollen
+
+        this.scene.rotate(-pollen.rotation, 0, 1, 0);
+
+        this.polenAppearance.apply();
+
+        pollen.display();
+
+        this.scene.popMatrix();
+    }
+
+    displayWingL(){
 
         this.scene.pushMatrix(); // wing
 
-        this.scene.translate(-this.body.radius,0.1,0.5);
-        this.scene.rotate(-this.wingRotation, 0, 0, 1);
-        this.scene.translate(-this.body.radius,0,0);
+        this.wingLAppearance.apply();
+        this.scene.pushMatrix();
+
+        this.scene.translate(0, -0.02,-this.wingL.radius*0.8);
+
+        this.scene.rotate(this.wingRotation, 0, 0, 1);
+
+        this.scene.translate(this.wingL.radius*1.2, 0, 0);
+
+        this.scene.rotate(Math.PI/6, 0, 1, 0);
+
+        this.scene.scale(1.2, 0.02, 0.8);
+
         this.scene.rotate(Math.PI/2, 0, 0, 1);
+
+        this.wingL.display();
+
+        this.scene.popMatrix();
+
+        this.scene.rotate(this.wingRotation, 0, 0, 1);
+
+        this.scene.translate(this.wingL.radius*2.2,0,0);
+
+        this.scene.scale(2.2, 0.02, 0.8);
+
+        this.scene.rotate(Math.PI/2, 0, 0, 1);
+
+        this.wingL.display();
+
+        this.scene.popMatrix();
+
+    }
+
+    displayWingR(){
+
+        this.scene.pushMatrix(); // wing
+
+        this.scene.rotate(Math.PI, 0, 1, 0);
 
         this.wingRAppearance.apply();
 
         this.scene.pushMatrix();
 
-        this.scene.translate(-0.05, 0, -1*this.body.radius);
+        this.scene.translate(0,-0.02,this.wingR.radius*0.8);
 
-        this.scene.rotate(-Math.PI/6, 1, 0, 0);
+        this.scene.rotate(this.wingRotation, 0, 0, 1);
 
-        this.scene.scale(0.02, -1, -0.8);
+        this.scene.translate(this.wingR.radius*1.2, 0, 0);
+
+        this.scene.rotate(-Math.PI/6, 0, 1, 0);
+
+        this.scene.scale(1.2, 0.02, 0.8);
+
+        this.scene.rotate(Math.PI/2, 0, 0, 1);
 
         this.wingR.display();
 
         this.scene.popMatrix();
 
-        this.scene.scale(0.02, -2.2, -0.8);
+        this.scene.rotate(this.wingRotation, 0, 0, 1);
+
+        this.scene.translate(this.wingR.radius*2.2,0,0);
+
+        this.scene.scale(2.2, 0.02, 0.8);
+
+        this.scene.rotate(Math.PI/2, 0, 0, 1);
 
         this.wingR.display();
 
         this.scene.popMatrix();
+
+    }
+
+    displayLeg(){
+        this.scene.pushMatrix(); //leg
+
+        this.scene.pushMatrix(); //upper leg
+
+        this.scene.translate(-this.leg.radius*0.5*Math.cos(3*Math.PI/4), -this.leg.radius*0.5*Math.sin(3*Math.PI/4), 0);
+
+        this.scene.rotate(-Math.PI/4, 0, 0, 1);
+
+        this.scene.scale(0.5, 0.1, 0.1);
 
         this.furDarkAppearance.apply();
 
-        this.scene.pushMatrix(); //leg
+        this.leg.display();
 
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+        this.scene.popMatrix();
 
-        this.scene.translate(0.5, -this.body.radius, 0.5);
+        this.scene.pushMatrix(); //lower leg
 
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
+        this.scene.translate(-this.leg.radius*Math.cos(3*Math.PI/4)*0.95, -this.leg.radius*Math.sin(3*Math.PI/4)*0.95, 0);
+
+        this.scene.translate(-this.leg.radius*0.5*Math.cos(Math.PI/3), -this.leg.radius*0.5*Math.sin(Math.PI/3), 0);
+
+        this.scene.rotate(Math.PI/3, 0, 0, 1);
 
         this.scene.scale(0.5, 0.1, 0.1);
+
+        this.furDarkAppearance.apply();
 
         this.leg.display();
 
         this.scene.popMatrix();
 
-        this.scene.pushMatrix();
+        this.scene.popMatrix();
+    }
 
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+    displayLegs(){
+
+        this.scene.pushMatrix(); // legs
+
+        this.scene.pushMatrix(); // leg
+
+        this.scene.translate(0, 0, 0.4*1.5*this.body.radius);
+
+        this.displayLeg();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix(); // leg
+
+        this.displayLeg();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix(); // leg
+
+        this.scene.translate(0, 0, -0.4*1.5*this.body.radius);
+
+        this.displayLeg();
+
+        this.scene.popMatrix();
+
+        this.scene.popMatrix();
+
+    }
+
+    displayBody(){
+
+        this.scene.pushMatrix(); // body
+
+        this.scene.pushMatrix(); // pollen
+
+        if (this.carryingPolen1 != null){
+            this.scene.pushMatrix();
+            this.scene.translate(1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius - this.carryingPolen1.radius*0.25);
+            this.displayPollen(this.carryingPolen1);
+            this.scene.popMatrix();
+        }
+
+        if (this.carryingPolen2 != null){
+            this.scene.pushMatrix();
+            this.scene.translate(-1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius - this.carryingPolen2.radius*0.25);
+            this.displayPollen(this.carryingPolen2);
+            this.scene.popMatrix();
+        }
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix(); // left wings
+
+        this.scene.translate(0, 0, this.body.radius*0.3);
+
+        this.displayWingL();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix(); // right wings
+
+        this.scene.translate(0, 0, this.body.radius*0.3);
+
+        this.displayWingR();
+
+        this.scene.pushMatrix(); // right legs
+
+        this.scene.translate(0.3*this.body.radius, -0.5*this.body.radius, 0);
+
+        this.scene.rotate(this.legRotation, 0, 0, 1);
+
+        this.displayLegs();
         
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-
-        this.leg.display();
-
         this.scene.popMatrix();
 
-        this.scene.pushMatrix(); //leg
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius/2);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius/2);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix(); //leg
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        ///////////////////////////////////////////////////////////
-
-        this.scene.pushMatrix();
+        this.scene.pushMatrix(); // left legs
 
         this.scene.rotate(Math.PI, 0, 1, 0);
 
-        this.scene.pushMatrix(); //leg
+        this.scene.translate(0.3*this.body.radius, -0.5*this.body.radius, 0);
 
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
+        this.scene.rotate(this.legRotation, 0, 0, 1);
 
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
+        this.displayLegs();
 
         this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-        
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix(); //leg
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius/2);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius/2);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix(); //leg
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.rotate(-Math.PI/4, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-
-        this.scene.rotate(this.legRotation/2, 0, 0, 1);
-
-        this.scene.translate( 0, 0, -this.body.radius);
-
-        this.scene.translate(0.5, -this.body.radius, 0.5);
-
-        this.scene.translate(0.1,-0.7,0);
-
-        this.scene.rotate(Math.PI/3, 0, 0, 1);
-
-        this.scene.scale(0.5, 0.1, 0.1);
-
-        this.leg.display();
-
-        this.scene.popMatrix();
-
-        this.scene.popMatrix();
-
 
         this.scene.scale(1.2, 1, 1.5);
 
@@ -503,33 +454,61 @@ export class MyBee extends CGFobject {
         this.body.display();
 
         this.scene.popMatrix();
+    }
 
+    displayBottom(){
 
         this.scene.pushMatrix(); // bottom
 
-        this.scene.translate(0, -2.5*this.bottom.radius, -this.head.radius*4.5);
+        this.scene.rotate(Math.PI/4, 1, 0, 0);
 
         this.scene.pushMatrix(); // sting
 
-        this.scene.rotate(-3*Math.PI/4, 1, 0, 0);
+        this.furDarkAppearance.apply();
 
-        this.scene.translate(0, this.bottom.radius+1, 0);
+        this.scene.translate(0, -2*this.bottom.radius, 0);
+
+        this.scene.rotate(Math.PI, 1, 0, 0);
 
         this.scene.scale(0.1, 0.5, 0.1);
-
-        this.furDarkAppearance.apply();
 
         this.sting.display();
 
         this.scene.popMatrix();
-
-        this.scene.rotate(Math.PI/4, 1, 0, 0);
 
         this.scene.scale(1.5, 2, 1.5);
 
         this.furAppearance.apply();
 
         this.bottom.display();
+
+        this.scene.popMatrix();
+    }
+
+    display(scale){
+        this.scene.pushMatrix(); // bee
+
+        this.scene.translate(this.x, this.y, this.z);
+
+        this.scene.rotate(this.direction, 0, 1, 0);
+
+        this.scene.scale(scale, scale, scale);
+
+        this.displayHead();
+
+        this.scene.pushMatrix(); // body
+
+        this.scene.translate(0, -0.5, -this.head.radius*1.9);
+
+        this.displayBody();
+
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix(); // bottom
+
+        this.scene.translate(0, -0.5 - this.body.radius*1.3, -this.head.radius*1.4 - this.body.radius);
+
+        this.displayBottom();
 
         this.scene.popMatrix();
 
