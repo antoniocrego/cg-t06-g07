@@ -42,7 +42,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
-    //this.hive = new MyHive(this);
+    this.hive = new MyHive(this);
     this.bee = new MyBee(this, 0, 3, 0, [0,0], this.hive);
 
     // animation
@@ -53,8 +53,8 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.displayNormals = false;
     this.displayBee = true;
-    this.displayGarden = false;
-    this.displayRockset = false;
+    this.displayGarden = true;
+    this.displayRockset = true;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -114,7 +114,6 @@ export class MyScene extends CGFscene {
             this.bee.reset();
             anyKeyPressed=true;
     }
-    /*
     if (this.gui.isKeyPressed("KeyF")){
             text+=" F ";
             var xDist = Math.abs(this.bee.x%10);
@@ -157,7 +156,6 @@ export class MyScene extends CGFscene {
             this.bee.deliver();
             anyKeyPressed=true;
     }
-    */
     if (keysPressedF){
       this.bee.accelerate(beeSpeed*this.speedFactor);
     }
@@ -256,11 +254,9 @@ export class MyScene extends CGFscene {
 
     if(this.displayRockset) this.rockSet.display();
 
-    /*
     this.translate(6.5,3.5,6.5);
 
     this.hive.display();
-    */
 
     this.popMatrix();
 

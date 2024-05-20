@@ -572,14 +572,14 @@ export class MyBee extends CGFobject {
 
         if (this.carryingPolen1 != null){
             this.scene.pushMatrix();
-            this.scene.translate(1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius - this.carryingPolen1.radius*0.25);
+            this.scene.translate(1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius);
             this.displayPollen(this.carryingPolen1);
             this.scene.popMatrix();
         }
 
         if (this.carryingPolen2 != null){
             this.scene.pushMatrix();
-            this.scene.translate(-1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius - this.carryingPolen2.radius*0.25);
+            this.scene.translate(-1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius);
             this.displayPollen(this.carryingPolen2);
             this.scene.popMatrix();
         }
