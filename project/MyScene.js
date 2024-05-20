@@ -53,8 +53,8 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.displayNormals = false;
     this.displayBee = true;
-    this.displayGarden = true;
-    this.displayRockset = false;
+    this.displayGarden = false;
+    this.displayRockset = true;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -258,14 +258,12 @@ export class MyScene extends CGFscene {
     this.rockAppearance.apply();
 
     //this.translate(-14.5,0,-14.5);
-    /*
 
     if(this.displayRockset) this.rockSet.display();
 
     this.translate(0, 20, 0);
 
     this.rock.display();
-    */
 
     /*
     this.translate(6.5,3.5,6.5);
