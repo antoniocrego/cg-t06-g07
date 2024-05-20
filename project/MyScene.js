@@ -4,6 +4,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyGarden } from "./garden/MyGarden.js";
 import { MyRock } from "./rocks/MyRock.js";
 import { MyRockSet } from "./rocks/MyRockSet.js";
+import { MyRockDistribution } from "./rocks/RockDistribution.js";
 import { MyBee } from "./bee/MyBee.js";
 import { MyHive } from "./bee/MyHive.js";
 
@@ -44,6 +45,7 @@ export class MyScene extends CGFscene {
     this.rockSet = new MyRockSet(this,10);
     this.hive = new MyHive(this);
     this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
+    this.rocks = new MyRockDistribution(this, 50);
 
     // animation
     this.setUpdatePeriod(50);
@@ -55,8 +57,8 @@ export class MyScene extends CGFscene {
     this.displayBee = true;
     this.displayGarden = true;
     this.displayRockset = true;
-    this.columns = 5;
-    this.rows = 5;
+    this.columns = 10;
+    this.rows = 10;
     this.speedFactor = 1;
     this.scaleFactor = 0.5;
 
@@ -260,9 +262,21 @@ export class MyScene extends CGFscene {
 
     this.popMatrix();
 
+    this.pushMatrix();
+
     this.translate(0, 80, 0);
 
     this.panorama.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    this.rockAppearance.apply();
+
+    this.rocks.display();
+
+    this.popMatrix();
 
     if (this.displayNormals)
             this.garden.enableNormalViz();
