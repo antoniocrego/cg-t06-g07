@@ -281,6 +281,8 @@ export class MyScene extends CGFscene {
 
     this.grass_appearance.apply();
 
+    this.scale(2, 1, 2);
+
     if(this.displayGrass) this.grasses.display();
 
     this.popMatrix();
