@@ -42,8 +42,8 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
-    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0]);
     this.hive = new MyHive(this);
+    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
 
     // animation
     this.setUpdatePeriod(50);
@@ -53,8 +53,8 @@ export class MyScene extends CGFscene {
     this.displayAxis = true;
     this.displayNormals = false;
     this.displayBee = true;
-    this.displayGarden = false;
-    this.displayRockset = true  ;
+    this.displayGarden = true;
+    this.displayRockset = true;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -118,15 +118,26 @@ export class MyScene extends CGFscene {
             var xDist = Math.abs(this.bee.x%10);
             var zDist = Math.abs(this.bee.z%10);
             if ((zDist > 8 || zDist < 2) && (xDist > 8 || xDist < 2)){
-              var column = xDist < 2 ? Math.floor((this.bee.x-xDist+0.5)/10) : Math.floor((this.bee.x+xDist+0.5)/10)
-              var row = zDist < 2 ? Math.floor((this.bee.z-zDist+0.5)/10) : Math.floor((this.bee.z+zDist+0.5)/10)
-              var flower = this.garden.flowers[column*10+row];
-              if (flower == null){
-                console.log("No flower found at: "+column+", "+row);
+              var column = 0;
+              var row = 0;
+              if (this.bee.z < 0 && this.bee.z > -2) row = 0;
+              else row = zDist < 2 ? Math.floor((this.bee.z-zDist+0.5)/10) : Math.floor((this.bee.z+zDist+0.5)/10)
+              if (this.bee.x < 0 && this.bee.x > -2) column = 0;
+              else column = xDist < 2 ? Math.floor((this.bee.x-xDist+0.5)/10) : Math.floor((this.bee.x+xDist+0.5)/10)
+              if (column >= 0 && column < 10 && row >= 0 && row < 10) {
+                var flower = this.garden.flowers[column*10+row];
+                if (column >= 0 && column < 10 && row >= 0 && row < 10) {
+                  var flower = this.garden.flowers[column * 10 + row];
+                  if (flower == null) {
+                      console.log("No flower found at: " + column + ", " + row);
+                  } else {
+                      console.log(column, row);
+                      this.bee.descend(flower);
+                  }
+                }
               }
-              else{
-                console.log(column, row);
-                this.bee.descend(flower);
+              else {
+                  console.log("Calculated column or row is out of bounds: " + column + ", " + row);
               }
             }
             anyKeyPressed=true;
