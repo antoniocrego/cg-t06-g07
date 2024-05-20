@@ -7,8 +7,7 @@ import { MyRockSet } from "./rocks/MyRockSet.js";
 import { MyRockDistribution } from "./rocks/RockDistribution.js";
 import { MyBee } from "./bee/MyBee.js";
 import { MyHive } from "./bee/MyHive.js";
-import { MyGrassBlade } from "./MyGrassBlade.js";
-import { MyGrass } from "./MyGrass.js";
+import { MyGrass } from "./grass/MyGrass.js";
 
 /**
  * MyScene
@@ -60,6 +59,8 @@ export class MyScene extends CGFscene {
     this.displayGarden = true;
     this.displayRockset = true;
     this.displayGrass = true;
+    this.displayHive = true;
+    this.displayRocks = true;
     this.columns = 10;
     this.rows = 10;
     this.speedFactor = 1;
@@ -273,7 +274,7 @@ export class MyScene extends CGFscene {
 
     this.translate(6.5,3.5,6.5);
 
-    this.hive.display();
+    if (this.displayHive) this.hive.display();
 
     this.popMatrix();
 
@@ -299,7 +300,7 @@ export class MyScene extends CGFscene {
 
     this.rockAppearance.apply();
 
-    this.rocks.display();
+    if (this.displayRocks) this.rocks.display();
 
     this.popMatrix();
 

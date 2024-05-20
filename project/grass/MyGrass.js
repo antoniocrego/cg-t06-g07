@@ -1,5 +1,5 @@
 
-import {CGFobject, CGFshader, CGFtexture} from '../lib/CGF.js';
+import {CGFobject, CGFshader, CGFtexture} from '../../lib/CGF.js';
 import {MyGrassBlade} from './MyGrassBlade.js';
 
 /**
