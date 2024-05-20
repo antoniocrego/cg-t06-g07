@@ -207,18 +207,20 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
-  /*
+  
   update(t)
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
-
+/*
       this.checkKeys();
 
       this.bee.update(timeSinceAppStart);
 
       this.panorama.update(timeSinceAppStart);
-    }
-  */
+*/
+      this.grasses.update(timeSinceAppStart);
+  }
+  
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -276,10 +278,6 @@ export class MyScene extends CGFscene {
 
     if(this.displayRockset) this.rockSet.display();
 
-    this.translate(0, 20, 0);
-
-    this.rock.display();
-
     /*
     this.translate(6.5,3.5,6.5);
 
@@ -295,7 +293,7 @@ export class MyScene extends CGFscene {
     if(this.displayGrass) this.grasses.display();
 
     this.popMatrix();
-    
+
     this.translate(0, 80, 0);
 
     this.panorama.display();

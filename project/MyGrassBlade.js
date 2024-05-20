@@ -71,7 +71,7 @@ export class MyGrassBlade extends CGFobject {
 
     display(){
         this.scene.pushMatrix();
-        this.scene.scale(1, 1/this.width, 1);
+        this.scene.scale(1, 1/(2*this.width) , 1);
         super.display();
         this.scene.popMatrix();
     }
