@@ -1,8 +1,7 @@
-import {CGFappearance, CGFobject, CGFtexture} from '../lib/CGF.js';
-import {MySphere} from './MySphere.js';
-import {MyCone} from './MyCone.js';
-import {MyCylinder} from './MyCylinder.js';
-import {MyPollen} from './MyPollen.js';
+import {CGFappearance, CGFobject, CGFtexture} from '../../lib/CGF.js';
+import {MySphere} from '../basicShapes/MySphere.js';
+import {MyCone} from '../basicShapes/MyCone.js';
+import {MyCylinder} from '../basicShapes/MyCylinder.js';
 
 const state = Object.freeze({
     BASIC: 0,
@@ -42,7 +41,7 @@ export class MyBee extends CGFobject {
 
         this.hive = hive;
 
-        this.beeState = state.BASIC;
+        this.beeState = state.EXITING;
         this.exit();
         this.flower = null;
         this.carryingPolen1 = null;

@@ -1,11 +1,11 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyPlane } from "./MyPlane.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
+import { MyPlane } from "./basicShapes/MyPlane.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyGarden } from "./MyGarden.js";
-import { MyRock } from "./MyRock.js";
-import { MyRockSet } from "./MyRockSet.js";
-import { MyBee } from "./MyBee.js";
-import { MyHive } from "./MyHive.js";
+import { MyGarden } from "./garden/MyGarden.js";
+import { MyRock } from "./rocks/MyRock.js";
+import { MyRockSet } from "./rocks/MyRockSet.js";
+import { MyBee } from "./bee/MyBee.js";
+import { MyHive } from "./bee/MyHive.js";
 
 /**
  * MyScene
@@ -43,7 +43,7 @@ export class MyScene extends CGFscene {
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
     this.hive = new MyHive(this);
-    this.bee = new MyBee(this, 0, 3, 0, [0,0], this.hive);
+    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
 
     // animation
     this.setUpdatePeriod(50);

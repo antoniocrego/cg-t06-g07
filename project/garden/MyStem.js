@@ -1,5 +1,5 @@
-import {CGFobject} from '../lib/CGF.js';
-import { MyCylinder} from './MyCylinder.js';
+import {CGFobject} from '../../lib/CGF.js';
+import { MyCylinder} from '../basicShapes/MyCylinder.js';
 import { MyLeaf } from './MyLeaf.js';
 
 function randomRotateStem(){

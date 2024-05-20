@@ -1,6 +1,6 @@
-import {CGFappearance, CGFobject, CGFtexture} from '../lib/CGF.js';
-import { MyCylinder } from './MyCylinder.js';
-import { MyCone } from './MyCone.js';
+import {CGFappearance, CGFobject, CGFtexture} from '../../lib/CGF.js';
+import { MyCylinder } from '../basicShapes/MyCylinder.js';
+import { MyCone } from '../basicShapes/MyCone.js';
 
 /**
  * MyTangram

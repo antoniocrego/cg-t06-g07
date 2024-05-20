@@ -15,7 +15,7 @@ void main() {
 	vec4 panorama = texture2D(uSampler, vTextureCoord);
 	vec4 clouds = texture2D(uSampler2, vTextureCoord+vec2(0.005*timeDelta, 0.0));
 
-    color = 1.0*panorama + 0.3*clouds;
+    color = 1.0*panorama + 0.4*clouds;
 
 	gl_FragColor = color;
 }
