@@ -47,7 +47,7 @@ export class MyRock extends CGFobject {
                 }else{
                     this.normals.push(x, y, z);
                 }
-                //this.texCoords.push(j / this.slices, i / (2*this.stacks));
+                this.texCoords.push(j / this.slices, i / (2*this.stacks));
             }
         }
 
