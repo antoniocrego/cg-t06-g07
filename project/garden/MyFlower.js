@@ -1,4 +1,4 @@
-import {CGFappearance, CGFobject} from '../lib/CGF.js';
+import {CGFobject} from '../../lib/CGF.js';
 import { MyStem } from "./MyStem.js";
 import { MyReceptacle } from './MyReceptacle.js';
 import { MyPetal } from './MyPetal.js';
@@ -29,8 +29,8 @@ export class MyFlower extends CGFobject {
             this.petalRotationsY.push(Math.random()*(maximumPetalRotationY-minimiumPetalRotationY)+minimiumPetalRotationY);
         }
         this.y = 0;
-        //this.pollen_appearance = pollen_appearance;
-        //this.pollen = new MyPollen(scene, 10, 10, receptacleRadius*0.9, false);
+        this.pollen_appearance = pollen_appearance;
+        this.pollen = new MyPollen(scene, 10, 10, receptacleRadius*0.9, false);
         this.initMaterials();
 	}
 
@@ -82,9 +82,9 @@ export class MyFlower extends CGFobject {
 
         this.receptacle.display();
 
-        //this.pollen_appearance.apply();
+        this.pollen_appearance.apply();
 
-        //if (this.pollen!=null) this.pollen.display();
+        if (this.pollen!=null) this.pollen.display();
 
         this.scene.popMatrix();
 

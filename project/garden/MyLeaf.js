@@ -1,4 +1,4 @@
-import {CGFobject} from '../lib/CGF.js';
+import {CGFobject} from '../../lib/CGF.js';
 
 function vectorLength(x,y,z){
 	return Math.sqrt(x*x + y*y + z*z);

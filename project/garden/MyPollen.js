@@ -1,5 +1,5 @@
-import {CGFobject} from '../lib/CGF.js';
-import {MySphere} from './MySphere.js';
+import {CGFobject} from '../../lib/CGF.js';
+import {MySphere} from '../basicShapes/MySphere.js';
 
 export class MyPollen extends CGFobject {
 	constructor(scene, slices, stacks, radius, inside) {

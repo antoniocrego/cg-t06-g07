@@ -1,8 +1,7 @@
-import {CGFappearance, CGFobject, CGFtexture} from '../lib/CGF.js';
-import {MySphere} from './MySphere.js';
-import {MyCone} from './MyCone.js';
-import {MyCylinder} from './MyCylinder.js';
-import {MyPollen} from './MyPollen.js';
+import {CGFappearance, CGFobject, CGFtexture} from '../../lib/CGF.js';
+import {MySphere} from '../basicShapes/MySphere.js';
+import {MyCone} from '../basicShapes/MyCone.js';
+import {MyCylinder} from '../basicShapes/MyCylinder.js';
 
 const state = Object.freeze({
     BASIC: 0,
@@ -42,7 +41,7 @@ export class MyBee extends CGFobject {
 
         this.hive = hive;
 
-        this.beeState = state.DELIVERING;
+        this.beeState = state.EXITING;
         this.exit();
         this.flower = null;
         this.carryingPolen1 = null;
@@ -432,7 +431,7 @@ export class MyBee extends CGFobject {
 
         this.scene.rotate(this.wingRotation, 0, 0, 1);
 
-        this.scene.translate(this.wingL.radius*1.2, 0, 0);
+        this.scene.translate(0.6, 0, 0);
 
         this.scene.rotate(Math.PI/6, 0, 1, 0);
 
@@ -446,7 +445,7 @@ export class MyBee extends CGFobject {
 
         this.scene.rotate(this.wingRotation, 0, 0, 1);
 
-        this.scene.translate(this.wingL.radius*2.2,0,0);
+        this.scene.translate(1.2,0,0);
 
         this.scene.scale(2.2, 0.02, 0.8);
 
@@ -472,7 +471,7 @@ export class MyBee extends CGFobject {
 
         this.scene.rotate(this.wingRotation, 0, 0, 1);
 
-        this.scene.translate(this.wingR.radius*1.2, 0, 0);
+        this.scene.translate(0.6, 0, 0);
 
         this.scene.rotate(-Math.PI/6, 0, 1, 0);
 
@@ -486,7 +485,7 @@ export class MyBee extends CGFobject {
 
         this.scene.rotate(this.wingRotation, 0, 0, 1);
 
-        this.scene.translate(this.wingR.radius*2.2,0,0);
+        this.scene.translate(1.2,0,0);
 
         this.scene.scale(2.2, 0.02, 0.8);
 
@@ -572,14 +571,14 @@ export class MyBee extends CGFobject {
 
         if (this.carryingPolen1 != null){
             this.scene.pushMatrix();
-            this.scene.translate(1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius);
+            this.scene.translate(1.2*0.5*this.body.radius, -this.body.radius, -1.3*this.body.radius);
             this.displayPollen(this.carryingPolen1);
             this.scene.popMatrix();
         }
 
         if (this.carryingPolen2 != null){
             this.scene.pushMatrix();
-            this.scene.translate(-1.2*0.5*this.body.radius, -this.body.radius, -1.5*this.body.radius);
+            this.scene.translate(-1.2*0.5*this.body.radius, -this.body.radius, -1.3*this.body.radius);
             this.displayPollen(this.carryingPolen2);
             this.scene.popMatrix();
         }
@@ -588,7 +587,7 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); // left wings
 
-        this.scene.translate(0, 0, this.body.radius*0.3);
+        this.scene.translate(1.2*this.wingL.radius, 0, this.body.radius*0.3);
 
         this.displayWingL();
 
@@ -596,9 +595,11 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); // right wings
 
-        this.scene.translate(0, 0, this.body.radius*0.3);
+        this.scene.translate(-1.2*this.wingR.radius, 0, this.body.radius*0.3);
 
         this.displayWingR();
+
+        this.scene.popMatrix();
 
         this.scene.pushMatrix(); // right legs
 
@@ -630,7 +631,6 @@ export class MyBee extends CGFobject {
 
         this.scene.popMatrix();
     }
-
     displayBottom(){
 
         this.scene.pushMatrix(); // bottom
@@ -681,7 +681,7 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix(); // bottom
 
-        this.scene.translate(0, -0.5 - this.body.radius*1.3, -this.head.radius*1.4 - this.body.radius);
+        this.scene.translate(0, -0.5 - this.body.radius*1.7, -this.head.radius*1.4 - this.body.radius*2 - this.bottom.radius);
 
         this.displayBottom();
 

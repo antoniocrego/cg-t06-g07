@@ -1,11 +1,12 @@
-import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
-import { MyPlane } from "./MyPlane.js";
+import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture } from "../lib/CGF.js";
+import { MyPlane } from "./basicShapes/MyPlane.js";
 import { MyPanorama } from "./MyPanorama.js";
-import { MyGarden } from "./MyGarden.js";
-import { MyRock } from "./MyRock.js";
-import { MyRockSet } from "./MyRockSet.js";
-import { MyBee } from "./MyBee.js";
-import { MyHive } from "./MyHive.js";
+import { MyGarden } from "./garden/MyGarden.js";
+import { MyRock } from "./rocks/MyRock.js";
+import { MyRockSet } from "./rocks/MyRockSet.js";
+import { MyRockDistribution } from "./rocks/RockDistribution.js";
+import { MyBee } from "./bee/MyBee.js";
+import { MyHive } from "./bee/MyHive.js";
 import { MyGrassBlade } from "./MyGrassBlade.js";
 import { MyGrass } from "./MyGrass.js";
 
@@ -44,8 +45,9 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
-    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0],this.hive);
     this.hive = new MyHive(this);
+    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
+    this.rocks = new MyRockDistribution(this, 50);
     this.grass = new MyGrassBlade(this, 5, 4);
     this.grasses = new MyGrass(this, 40, 40);
 
@@ -56,12 +58,12 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displayNormals = false;
-    this.displayBee = false;
-    this.displayGarden = false;
-    this.displayRockset = false;
+    this.displayBee = true;
+    this.displayGarden = true;
+    this.displayRockset = true;
     this.displayGrass = true;
-    this.columns = 5;
-    this.rows = 5;
+    this.columns = 10;
+    this.rows = 10;
     this.speedFactor = 1;
     this.scaleFactor = 0.5;
 
@@ -92,7 +94,6 @@ export class MyScene extends CGFscene {
     this.rockAppearance.setTexture(this.rockTexture);
     this.rockAppearance.setTextureWrap('REPEAT', 'REPEAT');
   }
-  /*
   checkKeys() {
     var text="Keys pressed: ";
     var keysPressedF=false;
@@ -185,7 +186,6 @@ export class MyScene extends CGFscene {
       console.log(text);
     }
   }
-  */
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -207,7 +207,6 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
-  
   update(t)
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
@@ -246,6 +245,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
+
     //this.earth_appearance.apply();
 
     //this.sphere.display();
@@ -260,13 +260,9 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    //this.translate(0,4,-10);
-
-    /*
     this.gray.apply();
 
     if (this.displayBee) this.bee.display(this.scaleFactor);
-    */
 
     this.popMatrix();
 
@@ -274,15 +270,13 @@ export class MyScene extends CGFscene {
 
     this.rockAppearance.apply();
 
-    //this.translate(-14.5,0,-14.5);
+    this.translate(-14.5,0,-14.5);
 
     if(this.displayRockset) this.rockSet.display();
 
-    /*
     this.translate(6.5,3.5,6.5);
 
     this.hive.display();
-    */
 
     this.popMatrix();
 
@@ -297,6 +291,16 @@ export class MyScene extends CGFscene {
     this.translate(0, 80, 0);
 
     this.panorama.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    this.rockAppearance.apply();
+
+    this.rocks.display();
+
+    this.popMatrix();
 
     if (this.displayNormals)
             this.garden.enableNormalViz();
