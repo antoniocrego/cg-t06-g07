@@ -6,6 +6,8 @@ import { MyRock } from "./MyRock.js";
 import { MyRockSet } from "./MyRockSet.js";
 import { MyBee } from "./MyBee.js";
 import { MyHive } from "./MyHive.js";
+import { MyGrassBlade } from "./MyGrassBlade.js";
+import { MyGrass } from "./MyGrass.js";
 
 /**
  * MyScene
@@ -44,6 +46,8 @@ export class MyScene extends CGFscene {
     this.rockSet = new MyRockSet(this,10);
     this.bee = new MyBee(this, 0, 3, 0, [0,0]);
     this.hive = new MyHive(this);
+    this.grass = new MyGrassBlade(this, 5, 4);
+    this.grasses = new MyGrass(this, 40, 40);
 
     // animation
     this.setUpdatePeriod(50);
@@ -52,9 +56,10 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displayNormals = false;
-    this.displayBee = true;
+    this.displayBee = false;
     this.displayGarden = false;
-    this.displayRockset = true  ;
+    this.displayRockset = false;
+    this.displayGrass = true;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -75,6 +80,12 @@ export class MyScene extends CGFscene {
     this.leaf_appearance = new CGFappearance(this);
     this.leaf_appearance.setTexture(this.leaftexture);
     this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+
+    this.grassTexture = new CGFtexture(this, "images/grass.jpg");
+    this.grass_appearance = new CGFappearance(this);
+    this.grass_appearance.setTexture(this.grassTexture);
+    this.grass_appearance.setTextureWrap('REPEAT', 'REPEAT');
+
   }
   checkKeys() {
     var text="Keys pressed: ";
@@ -206,6 +217,14 @@ export class MyScene extends CGFscene {
     this.translate(6.5,3.5,6.5);
 
     this.hive.display();
+
+    this.popMatrix();
+
+    this.pushMatrix();
+
+    this.grass_appearance.apply();
+
+    if(this.displayGrass) this.grasses.display();
 
     this.popMatrix();
 
