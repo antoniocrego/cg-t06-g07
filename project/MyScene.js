@@ -48,9 +48,7 @@ export class MyScene extends CGFscene {
     this.hive = new MyHive(this);
     this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
     this.rocks = new MyRockDistribution(this, 50);
-    this.grass = new MyGrassBlade(this, 5, 4);
     this.grasses = new MyGrass(this, 40, 40);
-
     // animation
     this.setUpdatePeriod(50);
     this.appStartTime=Date.now();
@@ -210,13 +208,12 @@ export class MyScene extends CGFscene {
   update(t)
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
-/*
       this.checkKeys();
 
       this.bee.update(timeSinceAppStart);
 
       this.panorama.update(timeSinceAppStart);
-*/
+      
       this.grasses.update(timeSinceAppStart);
   }
   
@@ -287,6 +284,8 @@ export class MyScene extends CGFscene {
     if(this.displayGrass) this.grasses.display();
 
     this.popMatrix();
+
+    this.pushMatrix();
 
     this.translate(0, 80, 0);
 
