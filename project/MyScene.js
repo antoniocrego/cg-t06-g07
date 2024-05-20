@@ -43,7 +43,7 @@ export class MyScene extends CGFscene {
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
     //this.hive = new MyHive(this);
-    //this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
+    this.bee = new MyBee(this, 0, 3, 0, [0,0], this.hive);
 
     // animation
     this.setUpdatePeriod(50);
@@ -54,7 +54,7 @@ export class MyScene extends CGFscene {
     this.displayNormals = false;
     this.displayBee = true;
     this.displayGarden = false;
-    this.displayRockset = true;
+    this.displayRockset = false;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -77,7 +77,6 @@ export class MyScene extends CGFscene {
     this.rockAppearance.setTexture(this.rockTexture);
     this.rockAppearance.setTextureWrap('REPEAT', 'REPEAT');
   }
-  /*
   checkKeys() {
     var text="Keys pressed: ";
     var keysPressedF=false;
@@ -115,6 +114,7 @@ export class MyScene extends CGFscene {
             this.bee.reset();
             anyKeyPressed=true;
     }
+    /*
     if (this.gui.isKeyPressed("KeyF")){
             text+=" F ";
             var xDist = Math.abs(this.bee.x%10);
@@ -157,6 +157,7 @@ export class MyScene extends CGFscene {
             this.bee.deliver();
             anyKeyPressed=true;
     }
+    */
     if (keysPressedF){
       this.bee.accelerate(beeSpeed*this.speedFactor);
     }
@@ -170,7 +171,6 @@ export class MyScene extends CGFscene {
       console.log(text);
     }
   }
-  */
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -192,7 +192,6 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
-  /*
   update(t)
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
@@ -203,7 +202,6 @@ export class MyScene extends CGFscene {
 
       this.panorama.update(timeSinceAppStart);
     }
-  */
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -229,6 +227,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
+
     //this.earth_appearance.apply();
 
     //this.sphere.display();
@@ -243,13 +242,9 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
 
-    //this.translate(0,4,-10);
-
-    /*
     this.gray.apply();
 
     if (this.displayBee) this.bee.display(this.scaleFactor);
-    */
 
     this.popMatrix();
 
@@ -257,13 +252,9 @@ export class MyScene extends CGFscene {
 
     this.rockAppearance.apply();
 
-    //this.translate(-14.5,0,-14.5);
+    this.translate(-14.5,0,-14.5);
 
     if(this.displayRockset) this.rockSet.display();
-
-    this.translate(0, 20, 0);
-
-    this.rock.display();
 
     /*
     this.translate(6.5,3.5,6.5);
