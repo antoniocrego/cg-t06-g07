@@ -42,8 +42,8 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
-    this.hive = new MyHive(this);
-    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
+    //this.hive = new MyHive(this);
+    //this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0], this.hive);
 
     // animation
     this.setUpdatePeriod(50);
@@ -54,7 +54,7 @@ export class MyScene extends CGFscene {
     this.displayNormals = false;
     this.displayBee = true;
     this.displayGarden = true;
-    this.displayRockset = true;
+    this.displayRockset = false;
     this.columns = 5;
     this.rows = 5;
     this.speedFactor = 1;
@@ -71,11 +71,13 @@ export class MyScene extends CGFscene {
     this.earth_appearance = new CGFappearance(this);
     this.earth_appearance.setTexture(this.earth);
     this.earth_appearance.setTextureWrap('REPEAT', 'REPEAT');
-    this.leaftexture = new CGFtexture(this, "images/leaf3.jpg");
-    this.leaf_appearance = new CGFappearance(this);
-    this.leaf_appearance.setTexture(this.leaftexture);
-    this.leaf_appearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+
+    this.rockTexture = new CGFtexture(this, "images/rock.jpg");
+    this.rockAppearance = new CGFappearance(this);
+    this.rockAppearance.setTexture(this.rockTexture);
+    this.rockAppearance.setTextureWrap('REPEAT', 'REPEAT');
   }
+  /*
   checkKeys() {
     var text="Keys pressed: ";
     var keysPressedF=false;
@@ -121,9 +123,9 @@ export class MyScene extends CGFscene {
               var column = 0;
               var row = 0;
               if (this.bee.z < 0 && this.bee.z > -2) row = 0;
-              else row = zDist < 2 ? Math.floor((this.bee.z-zDist+0.5)/10) : Math.floor((this.bee.z+zDist+0.5)/10)
+              else row = zDist < 2 ? Math.floor((this.bee.z)/10) : Math.ceil((this.bee.z)/10)
               if (this.bee.x < 0 && this.bee.x > -2) column = 0;
-              else column = xDist < 2 ? Math.floor((this.bee.x-xDist+0.5)/10) : Math.floor((this.bee.x+xDist+0.5)/10)
+              else column = xDist < 2 ? Math.floor((this.bee.x)/10) : Math.ceil((this.bee.x)/10)
               if (column >= 0 && column < this.columns && row >= 0 && row < this.rows) {
                 var flower = this.garden.flowers[column*10+row];
                 if (column >= 0 && column < 10 && row >= 0 && row < 10) {
@@ -131,7 +133,7 @@ export class MyScene extends CGFscene {
                   if (flower == null) {
                       console.log("No flower found at: " + column + ", " + row);
                   } else {
-                      console.log(column, row);
+                      console.log("Flower found at: " + column + ", "+ row);
                       this.bee.descend(flower);
                   }
                 }
@@ -139,6 +141,9 @@ export class MyScene extends CGFscene {
               else {
                   console.log("Calculated column or row is out of bounds: " + column + ", " + row);
               }
+            }
+            else{
+              console.log("Bee is not close enough to a flower!");
             }
             anyKeyPressed=true;
     }
@@ -165,6 +170,7 @@ export class MyScene extends CGFscene {
       console.log(text);
     }
   }
+  */
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -186,6 +192,7 @@ export class MyScene extends CGFscene {
     this.setSpecular(0.2, 0.4, 0.8, 1.0);
     this.setShininess(10.0);
   }
+  /*
   update(t)
   {
       var timeSinceAppStart=(t-this.appStartTime)/1000.0;
@@ -193,7 +200,10 @@ export class MyScene extends CGFscene {
       this.checkKeys();
 
       this.bee.update(timeSinceAppStart);
+
+      this.panorama.update(timeSinceAppStart);
     }
+  */
   display() {
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
@@ -212,7 +222,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.terrain_appearance.apply();
-    this.translate(0,-100,0);
+    //this.translate(0,-100,0);
     this.scale(400,400,400);
     this.rotate(-Math.PI/2.0,1,0,0);
     this.plane.display();
@@ -235,25 +245,37 @@ export class MyScene extends CGFscene {
 
     //this.translate(0,4,-10);
 
+    /*
     this.gray.apply();
 
     if (this.displayBee) this.bee.display(this.scaleFactor);
+    */
 
     this.popMatrix();
 
     this.pushMatrix();
 
-    this.gray.apply();
+    this.rockAppearance.apply();
 
-    this.translate(-14.5,0,-14.5);
+    //this.translate(-14.5,0,-14.5);
+    /*
 
     if(this.displayRockset) this.rockSet.display();
 
+    this.translate(0, 20, 0);
+
+    this.rock.display();
+    */
+
+    /*
     this.translate(6.5,3.5,6.5);
 
     this.hive.display();
+    */
 
     this.popMatrix();
+
+    this.translate(0, 80, 0);
 
     this.panorama.display();
 
