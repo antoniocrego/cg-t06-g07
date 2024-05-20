@@ -42,7 +42,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, this.panoramaTexture);
     this.rock = new MyRock(this, 6, 6, 4);
     this.rockSet = new MyRockSet(this,10);
-    this.bee = new MyBee(this, 0, 3, 0, [0,0]);
+    this.bee = new MyBee(this, -7.7, 7, -7.7, [0,0]);
     this.hive = new MyHive(this);
 
     // animation
@@ -80,6 +80,7 @@ export class MyScene extends CGFscene {
     var text="Keys pressed: ";
     var keysPressedF=false;
     var keysPressedS=false;
+    var anyKeyPressed=false;
     var beeSpeed = 0;
     var beeRotation = 0;
     // Check for key codes e.g. in https://keycode.info/
@@ -87,36 +88,70 @@ export class MyScene extends CGFscene {
             text+=" W ";
             beeSpeed+=0.1;
             keysPressedF=true;
+            anyKeyPressed=true;
     }
     if (this.gui.isKeyPressed("KeyS")){
             text+=" S ";
             beeSpeed-=0.2;
             keysPressedF=true;
+            anyKeyPressed=true;
     }
     if (this.gui.isKeyPressed("KeyA")){
             text+=" A ";
             beeRotation+=Math.PI/16.0;
             keysPressedS=true;
+            anyKeyPressed=true;
     }
     if (this.gui.isKeyPressed("KeyD")){
             text+=" D ";
             beeRotation-=Math.PI/16.0;
             keysPressedS=true;
+            anyKeyPressed=true;
     }
     if (this.gui.isKeyPressed("KeyR")){
             text+=" R ";
             this.bee.reset();
+            anyKeyPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyF")){
+            text+=" F ";
+            var xDist = Math.abs(this.bee.x%10);
+            var zDist = Math.abs(this.bee.z%10);
+            if ((zDist > 8 || zDist < 2) && (xDist > 8 || xDist < 2)){
+              var column = xDist < 2 ? Math.floor((this.bee.x-xDist+0.5)/10) : Math.floor((this.bee.x+xDist+0.5)/10)
+              var row = zDist < 2 ? Math.floor((this.bee.z-zDist+0.5)/10) : Math.floor((this.bee.z+zDist+0.5)/10)
+              var flower = this.garden.flowers[column*10+row];
+              if (flower == null){
+                console.log("No flower found at: "+column+", "+row);
+              }
+              else{
+                console.log(column, row);
+                this.bee.descend(flower);
+              }
+            }
+            anyKeyPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyP")){
+            text+=" P ";
+            this.bee.ascend();  
+            anyKeyPressed=true;
+    }
+    if (this.gui.isKeyPressed("KeyO")){
+            text+=" O ";
+            this.bee.deliver();
+            anyKeyPressed=true;
     }
     if (keysPressedF){
-      console.log(text);
       this.bee.accelerate(beeSpeed*this.speedFactor);
     }
     else{
       this.bee.deaccelerate(Math.sqrt(this.bee.speed[0]**2 + this.bee.speed[1]**2)/5);
     }
     if (keysPressedS){
-      console.log(text);
       this.bee.turn(beeRotation*this.speedFactor);
+    }
+    if (anyKeyPressed){
+      console.log(text);
     }
   }
   initLights() {

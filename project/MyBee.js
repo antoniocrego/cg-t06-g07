@@ -4,6 +4,15 @@ import {MyCone} from './MyCone.js';
 import {MyCylinder} from './MyCylinder.js';
 import {MyPollen} from './MyPollen.js';
 
+const state = Object.freeze({
+    BASIC: 0,
+    DESCENDING: 1,
+    FLOWER: 2,
+    ASCENDING: 3,
+    DELIVERING: 4,
+    EXITING: 5
+});
+
 export class MyBee extends CGFobject {
 	constructor(scene, x, y, z, speed) {
 		super(scene);
@@ -30,8 +39,14 @@ export class MyBee extends CGFobject {
         this.cylinder = new MyCylinder(scene, 20, 20, 1, 0.025);
         this.cap = new MySphere(scene, 20, 20, 0.025);
 
-        this.carryingPolen1 = new MyPollen(scene, 10, 10, 0.1, false);
-        this.carryingPolen2 = new MyPollen(scene, 10, 10, 0.1, false);
+
+        this.beeState = state.DELIVERING;
+        this.exit();
+        this.flower = null;
+        this.carryingPolen1 = null;
+        this.carryingPolen2 = null;
+
+        this.angleToHive = this.getAngleToPosition(0, 0);
 	}
 
     initMaterials() {
@@ -39,18 +54,23 @@ export class MyBee extends CGFobject {
     }
 
     turn(v){
+        if (this.beeState != state.BASIC) return;
         this.direction += v;
+        if (this.direction < 0) this.direction += 2*Math.PI;
+        else if (this.direction >= 2*Math.PI) this.direction -= 2*Math.PI;
 
         let movementVector = Math.sqrt(this.speed[0]**2 + this.speed[1]**2);
         this.speed= [movementVector * Math.cos(this.direction), movementVector * Math.sin(this.direction)];
     }
 
     accelerate(v){
+        if (this.beeState != state.BASIC) return;
         var movementVector = Math.sqrt(this.speed[0]**2 + this.speed[1]**2) + v; // get the norm of the current speed and split the additional speed evenly
         this.speed = [movementVector * Math.cos(this.direction), movementVector * Math.sin(this.direction)];
     }
 
     deaccelerate(v){
+        if (this.beeState != state.BASIC) return;
         var movementVector = Math.sqrt(this.speed[0]**2 + this.speed[1]**2); // get the norm of the current speed
         if (movementVector < 0.08 && movementVector > -0.08){
             this.speed = [0,0];
@@ -62,11 +82,121 @@ export class MyBee extends CGFobject {
 
     update(time) {
         this.legRotation = Math.sin(2 * Math.PI * this.frequency * time) * this.amplitude;
-        this.y = this.initialY + this.legRotation;
         this.wingRotation = Math.sin(2 * Math.PI * 2.5 * time) * 0.6;
 
-        this.z += this.speed[0];
-        this.x += this.speed[1];
+        switch(this.beeState){
+            case state.BASIC:
+                this.z += this.speed[0];
+                this.x += this.speed[1];
+                this.y = this.initialY + this.legRotation;
+                break;
+            case state.DESCENDING:
+                if (this.y-this.flower.y < 0.05 && this.y-this.flower.y > -0.05){
+                    this.y = this.flower.y;
+                    this.beeState = state.FLOWER;
+                }
+                if (this.y > this.flower.y){
+                    this.y -= 0.05;
+                }
+                else if (this.y < this.flower.y){
+                    this.y += 0.05;
+                }
+                break;
+            case state.FLOWER:
+                this.y = this.y + this.legRotation;
+                if (this.carryPolen(this.flower.pollen)) this.flower.pollen = null;
+                break;
+            case state.ASCENDING:
+                if (this.y-this.initialY < 0.05 && this.y-this.initialY > -0.05){
+                    this.y = this.initialY;
+                    this.beeState = state.BASIC;
+                }
+                if (this.y > this.initialY){
+                    this.y -= 0.05;
+                }
+                else if (this.y < this.initialY){
+                    this.y += 0.05;
+                }
+                break;
+            case state.DELIVERING:
+                if (this.angleToHive < 0.1 && this.angleToHive > -0.1){
+                    this.direction += this.angleToHive
+                    this.angleToHive = 0;
+                    if (!(this.x+7.7 < 0.3 && this.x+7.7 > -0.3)){
+                        this.speed[1] = 0.5*Math.sin(this.direction);
+                        this.x += this.speed[1];
+                    }
+                    else this.x = -7.7;
+                    if (!(this.z+7.7 < 0.3 && this.z+7.7 > -0.3)){
+                        this.speed[0] = 0.5*Math.cos(this.direction);
+                        this.z += this.speed[0];
+                    }
+                    else this.z = -7.7;
+                    if (7-this.initialY<0.15 && 7-this.initialY > -0.15){
+                        this.initialY = 7;
+                    }
+                    if (7-this.initialY > 0){
+                        this.initialY += 0.15;
+                    }
+                    else if (7-this.initialY < 0){
+                        this.initialY -= 0.15;
+                    }
+                    if (this.x==-7.7 && this.z == -7.7 && this.initialY == 7){
+                        this.carryingPolen1 = null;
+                        this.carryingPolen2 = null;
+                        this.exit();
+                        break;
+                    }
+                }
+                else if (this.angleToHive > 0){
+                    this.angleToHive -= 0.1;
+                    this.direction -= 0.1;
+                }
+                else if (this.angleToHive < 0){
+                    this.angleToHive += 0.1;
+                    this.direction += 0.1;
+                }
+                this.y = this.initialY + this.legRotation;
+                break;
+            case state.EXITING:
+                if (this.angleToHive < 0.1 && this.angleToHive > -0.1){
+                    this.direction -= this.angleToHive
+                    this.angleToHive = 0;
+                    if (!(this.x < 0.5 && this.x > -0.5)){
+                        this.speed[1] = 0.5*Math.sin(this.direction);
+                        this.x += this.speed[1];
+                    }
+                    else this.x = 0;
+                    if (!(this.z < 0.5 && this.z > -0.5)){
+                        this.speed[0] = 0.5*Math.cos(this.direction);
+                        this.z += this.speed[0];
+                    }
+                    else this.z = 0;
+                    if (3-this.initialY<0.15 && 3-this.initialY > -0.15){
+                        this.initialY = 3;
+                    }
+                    if (3-this.initialY > 0){
+                        this.initialY += 0.15;
+                    }
+                    else if (3-this.initialY < 0){
+                        this.initialY -= 0.15;
+                    }
+                    if (this.x == 0 && this.z == 0 && this.initialY == 3){
+                        this.beeState = state.BASIC;
+                        break;
+                    }
+                }
+                else if (this.angleToHive > 0){
+                    this.angleToHive -= 0.1;
+                    this.direction -= 0.1;
+                }
+                else if (this.angleToHive < 0){
+                    this.angleToHive += 0.1;
+                    this.direction += 0.1;
+                }
+                this.y = this.initialY + this.legRotation;
+                break;
+        }
     }
     
     reset(){
@@ -78,10 +208,53 @@ export class MyBee extends CGFobject {
     }
 
     carryPolen(polen){
+        if (polen == null) return false;
         if (this.carryingPolen1 == null) this.carryingPolen1 = polen;
         else if (this.carryingPolen2 == null) this.carryingPolen2 = polen;
         else return false;
         return true;
+    }
+
+    ascend(){
+        if (this.beeState != state.FLOWER) return;
+        this.beeState = state.ASCENDING;
+        this.flower = null;
+    }
+
+    descend(flower){
+        if (this.beeState != state.BASIC) return;
+        this.speed = [0,0];
+        this.beeState = state.DESCENDING;
+        this.flower = flower;
+    }
+
+    deliver(){
+        if (this.beeState != state.BASIC) return;
+
+        this.angleToHive = this.getAngleToPosition(-7.7, -7.7);
+        
+        this.beeState = state.DELIVERING;
+    }
+
+    exit(){
+        if (this.beeState != state.DELIVERING) return;
+        this.angleToHive = this.getAngleToPosition(0, 0);
+        this.beeState = state.EXITING;
+    }
+
+    getAngleToPosition(x, z){
+        var movementVector = [Math.sin(this.direction), Math.cos(this.direction)];
+        var movementVectorNorm = Math.sqrt(movementVector[0]**2 + movementVector[1]**2);
+        movementVector = [movementVector[0]/movementVectorNorm, movementVector[1]/movementVectorNorm];
+
+        var vectorToDest = [x-this.x, z-this.z];
+        var vectorToDestNorm = Math.sqrt(vectorToDest[0]**2 + vectorToDest[1]**2);
+        vectorToDest = [vectorToDest[0]/vectorToDestNorm, vectorToDest[1]/vectorToDestNorm];
+
+        var crossProduct = movementVector[0] * vectorToDest[1] - movementVector[1] * vectorToDest[0];
+
+        if (crossProduct > 0) return Math.acos(movementVector[0]*vectorToDest[0] + movementVector[1]*vectorToDest[1]);
+        else return -Math.acos(movementVector[0]*vectorToDest[0] + movementVector[1]*vectorToDest[1]);
     }
 
     display(scale){
