@@ -124,7 +124,7 @@ export class MyScene extends CGFscene {
               else row = zDist < 2 ? Math.floor((this.bee.z-zDist+0.5)/10) : Math.floor((this.bee.z+zDist+0.5)/10)
               if (this.bee.x < 0 && this.bee.x > -2) column = 0;
               else column = xDist < 2 ? Math.floor((this.bee.x-xDist+0.5)/10) : Math.floor((this.bee.x+xDist+0.5)/10)
-              if (column >= 0 && column < 10 && row >= 0 && row < 10) {
+              if (column >= 0 && column < this.columns && row >= 0 && row < this.rows) {
                 var flower = this.garden.flowers[column*10+row];
                 if (column >= 0 && column < 10 && row >= 0 && row < 10) {
                   var flower = this.garden.flowers[column * 10 + row];
